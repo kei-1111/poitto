@@ -1,0 +1,45 @@
+name: "Add Labels"
+on:
+  issues:
+    types: [opened]
+    
+permissions:
+  issues: write
+  contents: read
+  
+jobs:
+  add_priority_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Priority and Add Label
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const priorityMap = {
+              'High Priority': 'Priority: High',
+              'Medium Priority': 'Priority: Medium',
+              'Low Priority': 'Priority: Low',
+            };
+
+            const issueBody = context.payload.issue.body || '';
+
+            const priorityMatch = issueBody.match(/### 優先度\s*\n\s*(.+)/);
+          
+            if (priorityMatch) {
+              const priorityValue = priorityMatch[1].trim();
+              
+              const labelToAdd = priorityMap[priorityValue];
+
+              if (labelToAdd) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  labels: [labelToAdd],
+                });
+              } else {
+                console.log(`No matching label found for priority value "${priorityValue}".`);
+              }
+            } else {
+              console.log('No priority found in the issue body.');
+            }
