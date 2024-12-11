@@ -2,16 +2,28 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+//    detekt
+    alias(libs.plugins.detekt)
+
+//    KSP
+    alias(libs.plugins.ksp)
+
+//    Hilt
+    alias(libs.plugins.hilt)
+
+//    Serialization
+    alias(libs.plugins.serialization)
 }
 
 android {
     namespace = "com.example.flush"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.flush"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -56,4 +68,40 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+//    Immutable
+    implementation(libs.kotlinx.collections.immutable)
+
+//    Material Icon Extended
+    implementation(libs.androidx.material.icons.extended)
+
+//    Lottie
+    implementation(libs.lottie.compose)
+
+//    Splash Screen
+    implementation(libs.androidx.core.splashscreen)
+
+//    detekt
+    detektPlugins(libs.detekt.compose)
+    detektPlugins(libs.detekt.formatting)
+
+//    Hilt
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+
+//    Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+//    Navigation
+    implementation(libs.androidx.navigation.compose)
+}
+
+detekt {
+    config.setFrom("${rootProject.projectDir}/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+
+    source = files("src/main/java")
+
+    autoCorrect = true
 }

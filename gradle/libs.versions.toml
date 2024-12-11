@@ -7,7 +7,37 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.04.01"
+composeBom = "2024.11.00"
+
+# Immutable
+kotlinxCollectionsImmutable = "0.3.8"
+
+# Material Icons Extended
+materialIconsExtended = "1.7.5"
+
+# Lottie
+lottieCompose = "6.6.1"
+
+# Splash Screen
+coreSplashscreen = "1.0.1"
+
+# detekt
+detekt = "1.23.7"
+detektCompose = "0.4.12"
+
+# KSP
+ksp = "2.0.0-1.0.21"
+
+# Hilt
+hilt = "2.49"
+hiltNavigationCompose = "1.2.0"
+
+# Serialization
+serializationJson = "1.7.3"
+
+# Navigation
+navigationCompose = "2.8.4"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,8 +55,48 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+# Immutable
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+
+# Material Icons Extended
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
+
+# Lottie
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
+
+# Splash Screen
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+
+# detekt
+detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
+detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
+
+# Hilt
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+# Serialization
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJson" }
+
+# Navigation
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# detekt
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+
+# KSP
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
+# Hilt
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# Serialization
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
