@@ -15,4 +15,7 @@ plugins {
 
 //    Serialization
     alias(libs.plugins.serialization) apply false
+
+//    Google Services
+    alias(libs.plugins.google.services) apply false
 }

@@ -14,6 +14,9 @@ plugins {
 
 //    Serialization
     alias(libs.plugins.serialization)
+
+//    Google Services
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -95,6 +98,14 @@ dependencies {
 
 //    Navigation
     implementation(libs.androidx.navigation.compose)
+
+//    Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+
+//    Coroutines
+    implementation(libs.kotlinx.coroutines.play.services)
 }
 
 detekt {
