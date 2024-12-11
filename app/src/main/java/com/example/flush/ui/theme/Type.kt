@@ -1,34 +1,48 @@
+@file:Suppress("MagicNumber")
+
 package com.example.flush.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.flush.R
 
-// Set of Material typography styles to start with
+val NotoSansJp = FontFamily(
+    Font(R.font.noto_sans_jp_medium, FontWeight.Medium),
+    Font(R.font.noto_sans_jp_semi_bold, FontWeight.SemiBold),
+    Font(R.font.noto_sans_jp_black, FontWeight.Black),
+)
+
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
+    displayMedium = TextStyle(
+        fontFamily = NotoSansJp,
+        fontWeight = FontWeight.Black,
+        fontSize = 42.sp,
+        lineHeight = 48.sp,
+    ),
+
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
+        fontFamily = NotoSansJp,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 22.sp,
         lineHeight = 28.sp,
-        letterSpacing = 0.sp
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
+
+    bodyMedium = TextStyle(
+        fontFamily = NotoSansJp,
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+    ),
+
+    labelMedium = TextStyle(
+        fontFamily = NotoSansJp,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
+        letterSpacing = 0.5.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+    ),
 )
