@@ -36,10 +36,10 @@ private val topLevelScreens = listOf(
 
 @Composable
 fun BottomBar(
-    navigateToSearch: (() -> Unit)? = null,
-    navigateToUserSettings: (() -> Unit)? = null,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier,
+    navigateToSearch: (() -> Unit)? = null,
+    navigateToUserSettings: (() -> Unit)? = null,
 ) {
     NavigationBar(
         modifier = modifier,
