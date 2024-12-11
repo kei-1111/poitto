@@ -1,7 +1,6 @@
 package com.example.flush.ui.feature.post
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
 import com.example.flush.ui.compose.BodyMediumText
 import com.example.flush.ui.compose.CenteredContainer
