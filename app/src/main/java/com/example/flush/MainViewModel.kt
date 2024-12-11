@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _startDestination = MutableStateFlow<Screen?>(null)
     val startDestination: StateFlow<Screen?> = _startDestination.asStateFlow()

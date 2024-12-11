@@ -42,7 +42,7 @@ fun SignUpScreenContent(
         modifier = modifier
             .padding(horizontal = Paddings.Large),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Paddings.Large)
+        verticalArrangement = Arrangement.spacedBy(Paddings.Large),
     ) {
         SignUpHeader()
         EmailSignUpFields(
@@ -69,7 +69,7 @@ private fun SignUpHeader(
         text = "サインアップ",
         modifier = modifier
             .padding(Paddings.Medium),
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
     )
 }
 
@@ -141,19 +141,19 @@ private fun GoogleSignUpButton(
             horizontal = Paddings.Medium,
             vertical = Paddings.Small,
         ),
-        border = BorderStroke(width = BorderStrokeWidth, MaterialTheme.colorScheme.onSurface)
+        border = BorderStroke(width = BorderStrokeWidth, MaterialTheme.colorScheme.onSurface),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Image(
                 resId = R.drawable.ic_google,
-                modifier = Modifier.align(Alignment.CenterStart)
+                modifier = Modifier.align(Alignment.CenterStart),
             )
             BodyMediumText(
-                text = "Googleで新規登録"
+                text = "Googleで新規登録",
             )
         }
     }

@@ -3,7 +3,6 @@ package com.example.flush.ui.feature.sign_up
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.use_case.SignUpWithEmailUseCase
 import com.example.flush.ui.base.BaseViewModel
-import com.example.flush.ui.base.UiEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

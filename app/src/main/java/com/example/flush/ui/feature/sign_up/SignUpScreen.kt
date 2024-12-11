@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.onEach
 fun SignUpScreen(
     navigateToAuthSelection: () -> Unit,
     navigateToSearch: () -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -71,22 +71,22 @@ fun SignUpScreen(
 private fun SignUpScreen(
     uiState: SignUpUiState,
     onEvent: (SignUpUiEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Scaffold(
         modifier = modifier,
         topBar = {
             SignUpScreenTopBar(
-                onNavigateToAuthSelection = { onEvent(SignUpUiEvent.OnNavigateToAuthSelectionClick) }
+                onNavigateToAuthSelection = { onEvent(SignUpUiEvent.OnNavigateToAuthSelectionClick) },
             )
-        }
+        },
     ) { innerPadding ->
         SignUpScreenContent(
             uiState = uiState,
             onEvent = onEvent,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
         )
     }
 }
@@ -102,8 +102,8 @@ private fun SignUpScreenTopBar(
             IconButton(
                 icon = Icons.Outlined.ArrowBackIosNew,
                 onClick = onNavigateToAuthSelection,
-                contentColor = MaterialTheme.colorScheme.primary
+                contentColor = MaterialTheme.colorScheme.primary,
             )
-        }
+        },
     )
 }

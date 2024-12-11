@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("VariableNaming")
 abstract class BaseViewModel<S : UiState, E : UiEvent, F : UiEffect>(
-    initialState: S
+    initialState: S,
 ) : ViewModel() {
     protected val _uiState = MutableStateFlow<S>(initialState)
     val uiState: StateFlow<S> = _uiState.asStateFlow()

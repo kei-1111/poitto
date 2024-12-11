@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : AuthRepository {
     override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser> =
         withContext(ioDispatcher) {
