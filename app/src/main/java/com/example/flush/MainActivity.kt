@@ -10,7 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.flush.ui.navigation.FlushNavHost
 import com.example.flush.ui.navigation.Screen
 import com.example.flush.ui.theme.FlushTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
