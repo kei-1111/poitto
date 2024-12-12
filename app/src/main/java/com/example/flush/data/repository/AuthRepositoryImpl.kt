@@ -27,7 +27,7 @@ class AuthRepositoryImpl @Inject constructor(
         .setGoogleIdTokenRequestOptions(
             BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                 .setSupported(true)
-                .setServerClientId(BuildConfig.webClientId)
+                .setServerClientId(BuildConfig.WEB_CLIENT_ID)
                 .setFilterByAuthorizedAccounts(false)
                 .build(),
         )
