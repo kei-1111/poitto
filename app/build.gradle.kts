@@ -17,6 +17,9 @@ plugins {
 
 //    Google Services
     alias(libs.plugins.google.services)
+
+//    Secrets Gradle Plugin
+    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -51,6 +54,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -106,6 +110,9 @@ dependencies {
 
 //    Coroutines
     implementation(libs.kotlinx.coroutines.play.services)
+
+//    Google Auth
+    implementation(libs.play.services.auth)
 }
 
 detekt {

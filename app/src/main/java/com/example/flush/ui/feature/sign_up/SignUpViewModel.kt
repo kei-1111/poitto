@@ -1,6 +1,11 @@
 package com.example.flush.ui.feature.sign_up
 
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
+import com.example.flush.domain.repository.AuthRepository
+import com.example.flush.domain.use_case.SignInWithGoogleUseCase
 import com.example.flush.domain.use_case.SignUpWithEmailUseCase
 import com.example.flush.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,6 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase,
+    private val authRepository: AuthRepository,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
 ) : BaseViewModel<SignUpUiState, SignUpUiEvent, SignUpUiEffect>(SignUpUiState()) {
 
     fun updateEmail(email: String) {
@@ -35,6 +42,27 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    fun startGoogleSignIn() {
+    fun startGoogleSignIn(launcher: ActivityResultLauncher<IntentSenderRequest>) {
+        viewModelScope.launch {
+            updateUiState { it.copy(isLoading = true) }
+            val intentSenderRequest = authRepository.requestGoogleOneTapAuth()
+            launcher.launch(intentSenderRequest)
+        }
+    }
+
+    fun handleSignInResult(launcherResult: Intent?) {
+        updateUiState { it.copy(isLoading = false) }
+        viewModelScope.launch {
+            if (launcherResult != null) {
+                val result = signInWithGoogleUseCase(launcherResult)
+                if (result.isSuccess) {
+                    sendEffect(SignUpUiEffect.NavigateToSearch)
+                } else {
+                    sendEffect(SignUpUiEffect.ShowToast("Failed to sign in"))
+                }
+            } else {
+                sendEffect(SignUpUiEffect.ShowToast("Failed to sign in"))
+            }
+        }
     }
 }

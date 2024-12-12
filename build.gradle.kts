@@ -18,4 +18,7 @@ plugins {
 
 //    Google Services
     alias(libs.plugins.google.services) apply false
+
+//    Secrets Gradle Plugin
+    alias(libs.plugins.secrets.gradle.plugin) apply false
 }

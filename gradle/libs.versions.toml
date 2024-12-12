@@ -47,6 +47,12 @@ firebaseBom = "33.6.0"
 # Coroutines
 kotlinxCoroutinesPlayServices = "1.7.3"
 
+# Secrets Gradle Plugin
+secretsGradlePlugin = "2.0.0"
+
+# Google Auth
+playServicesAuth = "21.3.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -99,6 +105,9 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 # Coroutines
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
 
+# Google Auth
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -119,3 +128,6 @@ serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref 
 
 # Google Services
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+
+# Secrets Gradle Plugin
+secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }

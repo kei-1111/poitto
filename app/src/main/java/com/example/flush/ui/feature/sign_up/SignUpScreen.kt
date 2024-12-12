@@ -1,5 +1,8 @@
 package com.example.flush.ui.feature.sign_up
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -39,6 +42,13 @@ fun SignUpScreen(
     val latestNavigateToAuthSelection by rememberUpdatedState(navigateToAuthSelection)
     val latestNavigateToSearch by rememberUpdatedState(navigateToSearch)
 
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = { result ->
+            viewModel.handleSignInResult(result.data)
+        }
+    )
+
     LaunchedEffect(lifecycleOwner, viewModel) {
         viewModel.uiEvent.flowWithLifecycle(lifecycleOwner.lifecycle).onEach { event ->
             when (event) {
@@ -46,7 +56,7 @@ fun SignUpScreen(
                 is SignUpUiEvent.OnEmailInputChange -> viewModel.updateEmail(event.email)
                 is SignUpUiEvent.OnPasswordInputChange -> viewModel.updatePassword(event.password)
                 is SignUpUiEvent.OnSubmitClick -> viewModel.submitRegister()
-                is SignUpUiEvent.OnGoogleSignUpClick -> viewModel.startGoogleSignIn()
+                is SignUpUiEvent.OnGoogleSignUpClick -> viewModel.startGoogleSignIn(googleSignInLauncher)
             }
         }.launchIn(this)
     }
