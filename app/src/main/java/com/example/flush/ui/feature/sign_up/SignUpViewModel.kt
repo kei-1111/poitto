@@ -51,10 +51,10 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun handleSignInResult(launcherResult: Intent?) {
-        updateUiState { it.copy(isLoading = false) }
         viewModelScope.launch {
             if (launcherResult != null) {
                 val result = signInWithGoogleUseCase(launcherResult)
+                updateUiState { it.copy(isLoading = false) }
                 if (result.isSuccess) {
                     sendEffect(SignUpUiEffect.NavigateToSearch)
                 } else {
