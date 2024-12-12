@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class RequestGoogleOneTapAuthUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-){
+) {
     suspend operator fun invoke(): IntentSenderRequest = authRepository.requestGoogleOneTapAuth()
 }

@@ -2,13 +2,10 @@ package com.example.flush.data.repository
 
 import android.content.Intent
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.example.flush.BuildConfig
 import com.example.flush.di.IoDispatcher
-import com.example.flush.domain.model.User
 import com.example.flush.domain.repository.AuthRepository
-import com.example.flush.domain.repository.UserRepository
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthResult
@@ -32,7 +29,7 @@ class AuthRepositoryImpl @Inject constructor(
                 .setSupported(true)
                 .setServerClientId(BuildConfig.webClientId)
                 .setFilterByAuthorizedAccounts(false)
-                .build()
+                .build(),
         )
         .setAutoSelectEnabled(true)
         .build()
@@ -49,7 +46,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun requestGoogleOneTapAuth(): IntentSenderRequest  =
+    override suspend fun requestGoogleOneTapAuth(): IntentSenderRequest =
         withContext(ioDispatcher) {
             try {
                 val result = signInClient.beginSignIn(signInRequest).await()

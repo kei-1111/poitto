@@ -13,7 +13,7 @@ class SignInWithGoogleUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-){
+) {
     suspend operator fun invoke(resultData: Intent): Result<Unit> =
         withContext(ioDispatcher) {
             try {

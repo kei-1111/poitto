@@ -17,6 +17,6 @@ object SignInClientModule {
     @Provides
     @Singleton
     fun provideSignInClient(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): SignInClient = Identity.getSignInClient(context)
 }

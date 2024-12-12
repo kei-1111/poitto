@@ -1,7 +1,6 @@
 package com.example.flush.ui.feature.sign_up
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,7 +45,7 @@ fun SignUpScreen(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
         onResult = { result ->
             viewModel.handleSignInResult(result.data)
-        }
+        },
     )
 
     LaunchedEffect(lifecycleOwner, viewModel) {
