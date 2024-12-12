@@ -37,6 +37,8 @@ class AuthRepositoryImpl @Inject constructor(
         .setAutoSelectEnabled(true)
         .build()
 
+    override fun getCurrentUser() = auth.currentUser
+
     override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser> =
         withContext(ioDispatcher) {
             try {
@@ -46,8 +48,6 @@ class AuthRepositoryImpl @Inject constructor(
                 Result.failure(e)
             }
         }
-
-    override fun getCurrentUser() = auth.currentUser
 
     override suspend fun requestGoogleOneTapAuth(): IntentSenderRequest  =
         withContext(ioDispatcher) {

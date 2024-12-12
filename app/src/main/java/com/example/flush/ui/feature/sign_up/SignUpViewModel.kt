@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
-import com.example.flush.domain.repository.AuthRepository
+import com.example.flush.domain.use_case.RequestGoogleOneTapAuthUseCase
 import com.example.flush.domain.use_case.SignInWithGoogleUseCase
 import com.example.flush.domain.use_case.SignUpWithEmailUseCase
 import com.example.flush.ui.base.BaseViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase,
-    private val authRepository: AuthRepository,
+    private val requestGoogleOneTapAuthUseCase: RequestGoogleOneTapAuthUseCase,
     private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
 ) : BaseViewModel<SignUpUiState, SignUpUiEvent, SignUpUiEffect>(SignUpUiState()) {
 
@@ -45,7 +45,7 @@ class SignUpViewModel @Inject constructor(
     fun startGoogleSignIn(launcher: ActivityResultLauncher<IntentSenderRequest>) {
         viewModelScope.launch {
             updateUiState { it.copy(isLoading = true) }
-            val intentSenderRequest = authRepository.requestGoogleOneTapAuth()
+            val intentSenderRequest = requestGoogleOneTapAuthUseCase()
             launcher.launch(intentSenderRequest)
         }
     }
