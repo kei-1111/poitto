@@ -25,11 +25,11 @@ class SignInWithGoogleUseCase @Inject constructor(
                             email = authResult.getOrNull()?.user?.email ?: "",
                             name = "名無し",
                         )
-                        val userCreateResult = userRepository.createUser(user)
-                        if (userCreateResult.isSuccess) {
+                        val createUserResult = userRepository.createUser(user)
+                        if (createUserResult.isSuccess) {
                             Result.success(Unit)
                         } else {
-                            Result.failure(userCreateResult.exceptionOrNull() ?: Exception("Register failed"))
+                            Result.failure(createUserResult.exceptionOrNull() ?: Exception("Register failed"))
                         }
                     } else {
                         Result.success(Unit)

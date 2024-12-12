@@ -16,26 +16,26 @@ class SignUpWithEmailUseCase @Inject constructor(
     suspend operator fun invoke(email: String, password: String): Result<Unit> {
         return withContext(ioDispatcher) {
             try {
-                val result = authRepository.signUpWithEmail(email, password)
-                if (result.isSuccess) {
-                    val firebaseUser = result.getOrNull()
+                val authResult = authRepository.signUpWithEmail(email, password)
+                if (authResult.isSuccess) {
+                    val firebaseUser = authResult.getOrNull()
                     if (firebaseUser != null) {
                         val user = User(
                             uid = firebaseUser.uid,
                             email = firebaseUser.email ?: "",
                             name = "名無し",
                         )
-                        val userResult = userRepository.createUser(user)
-                        if (userResult.isSuccess) {
+                        val createUserResult = userRepository.createUser(user)
+                        if (createUserResult.isSuccess) {
                             Result.success(Unit)
                         } else {
-                            Result.failure(userResult.exceptionOrNull() ?: Exception("Register failed"))
+                            Result.failure(createUserResult.exceptionOrNull() ?: Exception("Register failed"))
                         }
                     } else {
                         Result.failure(Exception("User is null"))
                     }
                 } else {
-                    Result.failure(result.exceptionOrNull() ?: Exception("Register failed"))
+                    Result.failure(authResult.exceptionOrNull() ?: Exception("Register failed"))
                 }
             } catch (e: Exception) {
                 Result.failure(e)
