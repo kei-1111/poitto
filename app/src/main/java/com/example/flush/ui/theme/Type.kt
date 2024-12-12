@@ -13,6 +13,7 @@ import com.example.flush.R
 val NotoSansJp = FontFamily(
     Font(R.font.noto_sans_jp_medium, FontWeight.Medium),
     Font(R.font.noto_sans_jp_semi_bold, FontWeight.SemiBold),
+    Font(R.font.noto_sans_jp_bold, FontWeight.Bold),
     Font(R.font.noto_sans_jp_black, FontWeight.Black),
 )
 
@@ -26,8 +27,8 @@ val Typography = Typography(
 
     titleLarge = TextStyle(
         fontFamily = NotoSansJp,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
         lineHeight = 28.sp,
     ),
 
