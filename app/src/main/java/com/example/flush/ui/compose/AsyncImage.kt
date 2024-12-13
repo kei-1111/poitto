@@ -22,7 +22,7 @@ fun AsyncImage(
         painter = rememberAsyncImagePainter(uri),
         contentDescription = null,
         modifier = modifier
-            .background(Color.White)
+            .background(Color.White, shape = shape)
             .clip(shape),
         contentScale = contentScale,
     )
