@@ -1,9 +1,11 @@
 package com.example.flush.ui.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImagePainter.State.Empty.painter
@@ -20,6 +22,7 @@ fun AsyncImage(
         painter = rememberAsyncImagePainter(uri),
         contentDescription = null,
         modifier = modifier
+            .background(Color.White)
             .clip(shape),
         contentScale = contentScale,
     )
