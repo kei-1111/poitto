@@ -10,6 +10,7 @@ import com.example.flush.domain.repository.UserRepository
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +34,9 @@ object RepositoryModule {
     @Singleton
     fun provideUserRepository(
         firestore: FirebaseFirestore,
+        storage: FirebaseStorage,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): UserRepository = UserRepositoryImpl(firestore, ioDispatcher)
+    ): UserRepository = UserRepositoryImpl(firestore, storage, ioDispatcher)
 
     @Provides
     @Singleton

@@ -8,9 +8,6 @@ import com.example.flush.domain.use_case.SaveUserUseCase
 import com.example.flush.domain.use_case.SignOutUseCase
 import com.example.flush.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +17,7 @@ class UserSettingsViewModel @Inject constructor(
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val saveUserUseCase: SaveUserUseCase,
 ) : BaseViewModel<UserSettingsUiState, UserSettingsUiEvent, UserSettingsUiEffect>(
-    UserSettingsUiState()
+    UserSettingsUiState(),
 ) {
     private var initialUser: User? = null
 
@@ -32,7 +29,7 @@ class UserSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             getCurrentUserUseCase()
                 .collect { user ->
-                    updateUiState { it.copy(name = user.name) }
+                    updateUiState { it.copy(name = user.name, imageUri = user.iconUrl) }
                     initialUser = user
                 }
         }
@@ -42,17 +39,28 @@ class UserSettingsViewModel @Inject constructor(
         updateUiState { it.copy(name = name) }
     }
 
-    fun updateImageUri(imageUri: Uri?) {
-        updateUiState { it.copy(imageUri = imageUri) }
+    fun updateImageUri(imageUri: Uri) {
+        updateUiState { it.copy(imageUri = imageUri.toString()) }
     }
 
     fun saveUser() {
-        val name = uiState.value.name
         viewModelScope.launch {
-            initialUser?.let { user ->
+            updateUiState { it.copy(isLoading = true) }
+            val name = uiState.value.name
+            val imageUri = uiState.value.imageUri
+            val result = initialUser?.let { user ->
                 saveUserUseCase(
-                    user.copy(name = name)
+                    user.copy(
+                        name = name,
+                        iconUrl = imageUri,
+                    ),
                 )
+            }
+            updateUiState { it.copy(isLoading = false) }
+            if (result?.isSuccess == true) {
+                sendEffect(UserSettingsUiEffect.NavigateToSearch)
+            } else {
+                sendEffect(UserSettingsUiEffect.ShowToast("Failed to update user"))
             }
         }
     }

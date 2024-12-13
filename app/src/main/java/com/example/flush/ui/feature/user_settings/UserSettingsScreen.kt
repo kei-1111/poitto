@@ -3,7 +3,6 @@ package com.example.flush.ui.feature.user_settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,13 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.example.flush.ui.compose.BodyMediumText
-import com.example.flush.ui.compose.CenteredContainer
-import com.example.flush.ui.compose.FilledButton
 import com.example.flush.ui.compose.IconButton
 import com.example.flush.ui.compose.TopBar
-import com.example.flush.ui.feature.sign_up.SignUpUiEffect
-import com.example.flush.ui.feature.sign_up.SignUpUiEvent
 import com.example.flush.ui.utils.showToast
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -51,7 +45,11 @@ fun UserSettingsScreen(
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> viewModel.updateImageUri(uri) },
+        onResult = { uri ->
+            uri?.let {
+                viewModel.updateImageUri(uri)
+            }
+        },
     )
 
     val focusManager = LocalFocusManager.current
@@ -61,7 +59,6 @@ fun UserSettingsScreen(
             when (event) {
                 is UserSettingsUiEvent.OnNavigateToSearchClick -> {
                     viewModel.saveUser()
-                    latestNavigateToSearch()
                 }
                 is UserSettingsUiEvent.OnNameInputChange -> viewModel.updateName(event.name)
                 is UserSettingsUiEvent.OnImagePickerLaunchClick -> {
@@ -78,8 +75,9 @@ fun UserSettingsScreen(
     LaunchedEffect(lifecycleOwner, viewModel) {
         viewModel.uiEffect.flowWithLifecycle(lifecycleOwner.lifecycle).onEach { effect ->
             when (effect) {
-                is UserSettingsUiEffect.NavigateToAuthSelection -> latestNavigateToAuthSelection()
                 is UserSettingsUiEffect.ShowToast -> showToast(context, effect.message)
+                is UserSettingsUiEffect.NavigateToAuthSelection -> latestNavigateToAuthSelection()
+                is UserSettingsUiEffect.NavigateToSearch -> latestNavigateToSearch()
             }
         }.launchIn(this)
     }
@@ -88,7 +86,7 @@ fun UserSettingsScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     )
 }
 
@@ -104,7 +102,7 @@ private fun UserSettingsScreen(
             UserSettingsTopBar(
                 onNavigateToSearch = { onEvent(UserSettingsUiEvent.OnNavigateToSearchClick) },
             )
-        }
+        },
     ) { innerPadding ->
         UserSettingsScreenContent(
             uiState = uiState,

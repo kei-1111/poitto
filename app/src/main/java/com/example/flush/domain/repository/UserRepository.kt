@@ -1,7 +1,6 @@
 package com.example.flush.domain.repository
 
 import com.example.flush.domain.model.User
-import com.google.android.play.integrity.internal.u
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
