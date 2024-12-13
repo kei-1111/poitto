@@ -24,6 +24,8 @@ class SignUpWithEmailUseCase @Inject constructor(
                             uid = firebaseUser.uid,
                             email = firebaseUser.email ?: "",
                             name = "名無し",
+                            iconUrl = "https://firebasestorage.googleapis.com/v0/b/flush-de17e.firebasestorage.app/o/" +
+                                "default_icon.png?alt=media&token=c77ba166-ca8a-4504-b70e-c4749c8f9cfc",
                         )
                         val createUserResult = userRepository.createUser(user)
                         if (createUserResult.isSuccess) {

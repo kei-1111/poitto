@@ -2,7 +2,7 @@ package com.example.flush
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flush.domain.use_case.GetCurrentUserUseCase
+import com.example.flush.domain.use_case.GetCurrentFirebaseUserUseCase
 import com.example.flush.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,14 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCurrentUserUseCase: GetCurrentUserUseCase,
+    private val getCurrentFirebaseUserUseCase: GetCurrentFirebaseUserUseCase,
 ) : ViewModel() {
     private val _startDestination = MutableStateFlow<Screen?>(null)
     val startDestination: StateFlow<Screen?> = _startDestination.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val isUserLoggedIn = getCurrentUserUseCase() != null
+            val isUserLoggedIn = getCurrentFirebaseUserUseCase() != null
             _startDestination.update {
                 if (isUserLoggedIn) {
                     Screen.Search

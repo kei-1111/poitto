@@ -5,9 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import com.example.flush.ui.compose.BodyMediumText
-import com.example.flush.ui.compose.BottomBar
 import com.example.flush.ui.compose.CenteredContainer
 import com.example.flush.ui.compose.FilledButton
 
@@ -16,16 +14,8 @@ import com.example.flush.ui.compose.FilledButton
 fun SearchScreen(
     navigateToPost: () -> Unit,
     navigateToUserSettings: () -> Unit,
-    currentDestination: NavDestination?,
 ) {
-    Scaffold(
-        bottomBar = {
-            BottomBar(
-                navigateToUserSettings = navigateToUserSettings,
-                currentDestination = currentDestination,
-            )
-        },
-    ) { innerPadding ->
+    Scaffold { innerPadding ->
         CenteredContainer(
             modifier = Modifier.padding(innerPadding),
         ) {

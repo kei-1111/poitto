@@ -3,11 +3,9 @@ package com.example.flush.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.flush.ui.feature.auth_selection.AuthSelectionScreen
 import com.example.flush.ui.feature.post.PostScreen
 import com.example.flush.ui.feature.search.SearchScreen
@@ -51,7 +49,6 @@ fun FlushNavHost(
             SearchScreen(
                 navigateToPost = { navController.navigateTo(Screen.Post) },
                 navigateToUserSettings = { navController.navigateTo(Screen.UserSettings) },
-                currentDestination = navController.currentDestination(),
             )
         }
 
@@ -65,7 +62,6 @@ fun FlushNavHost(
             UserSettingsScreen(
                 navigateToSearch = { navController.navigateTo(Screen.Search) },
                 navigateToAuthSelection = { navController.navigateTo(Screen.AuthSelection) },
-                currentDestination = navController.currentDestination(),
             )
         }
     }
@@ -73,10 +69,4 @@ fun FlushNavHost(
 
 fun NavHostController.navigateTo(screen: Screen) {
     navigate(screen)
-}
-
-@Composable
-fun NavHostController.currentDestination(): NavDestination? {
-    val navBackStackEntry by currentBackStackEntryAsState()
-    return navBackStackEntry?.destination
 }

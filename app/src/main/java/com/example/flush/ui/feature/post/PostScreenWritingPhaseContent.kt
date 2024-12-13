@@ -95,7 +95,7 @@ private fun ImagePreview(
             .wrapContentSize(),
     ) {
         AsyncImage(
-            uri = imageUri,
+            uri = imageUri.toString(),
             modifier = Modifier
                 .align(Alignment.Center),
             contentScale = ContentScale.Fit,

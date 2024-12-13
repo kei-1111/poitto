@@ -77,4 +77,14 @@ class AuthRepositoryImpl @Inject constructor(
                 Result.failure(Exception("Error signing in with Google One Tap"))
             }
         }
+
+    override suspend fun signOut() =
+        withContext(ioDispatcher) {
+            try {
+                auth.signOut()
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
 }
