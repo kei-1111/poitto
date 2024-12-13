@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.use_case.EmotionAnalysisUseCase
 import com.example.flush.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +21,16 @@ class PostViewModel @Inject constructor(
 
     fun updateImageUri(imageUri: Uri?) {
         updateUiState { it.copy(imageUri = imageUri) }
+    }
+
+    fun startAnimation() {
+        viewModelScope.launch {
+            Log.d("Animation", "Animation started")
+            updateUiState { it.copy(animationState = PostUiAnimationState.Running) }
+            delay(AnimationConfig.AnimationDuration.toLong())
+            Log.d("Animation", "Animation completed")
+            updateUiState { it.copy(animationState = PostUiAnimationState.Completed) }
+        }
     }
 
     fun toThrowPhase() {
@@ -42,6 +53,7 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             val result = emotionAnalysisUseCase.gemini(text)
             Log.d("PostViewModel", "gemini: $result")
+            updateUiState { it.copy(responseMessage = result.trimEnd()) }
         }
     }
 }

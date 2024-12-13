@@ -1,5 +1,6 @@
 package com.example.flush.ui.feature.post
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,6 +62,7 @@ fun PostScreen(
                 }
                 is PostUiEvent.OnImageRemoveClick -> viewModel.updateImageUri(null)
                 is PostUiEvent.OnMessageSendClick -> viewModel.toThrowPhase()
+                is PostUiEvent.OnModelTapped -> viewModel.startAnimation()
             }
         }.launchIn(this)
     }
@@ -71,6 +73,10 @@ fun PostScreen(
                 is PostUiEffect.ShowToast -> showToast(context, effect.message)
             }
         }.launchIn(this)
+    }
+
+    LaunchedEffect(uiState.phase) {
+        Log.d("uiState.phase", uiState.phase.toString())
     }
 
     PostScreen(

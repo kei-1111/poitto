@@ -21,6 +21,9 @@ lottieCompose = "6.6.1"
 # Ccil
 coilCompose = "2.2.2"
 
+# Sceneview
+sceneview = "2.2.1"
+
 # Splash Screen
 coreSplashscreen = "1.0.1"
 
@@ -91,6 +94,9 @@ lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", versio
 
 # Coil
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
+
+# Sceneview
+sceneview = { group = "io.github.sceneview", name = "sceneview", version.ref = "sceneview" }
 
 # Splash Screen
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }

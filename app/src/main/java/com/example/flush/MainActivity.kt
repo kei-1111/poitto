@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.example.flush.ui.compositon_local.SceneviewProvider
 import com.example.flush.ui.navigation.FlushNavHost
 import com.example.flush.ui.navigation.Screen
 import com.example.flush.ui.theme.FlushTheme
@@ -26,13 +27,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             val startDestination by mainViewModel.startDestination.collectAsStateWithLifecycle()
 
-            FlushTheme {
-                startDestination?.let {
-                    FlushNavHost(
-                        navController = rememberNavController(),
-                        startDestination = startDestination ?: Screen.AuthSelection,
-                        modifier = Modifier.fillMaxSize(),
-                    )
+            SceneviewProvider {
+                FlushTheme {
+                    startDestination?.let {
+                        FlushNavHost(
+                            navController = rememberNavController(),
+                            startDestination = startDestination ?: Screen.AuthSelection,
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
                 }
             }
         }

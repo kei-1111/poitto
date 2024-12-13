@@ -23,7 +23,7 @@ import javax.inject.Singleton
 object NetworkModule {
     private const val BASE_URL = "https://p-text-generate.onrender.com/"
 
-    private const val TimeOutSeconds = 60L
+    private const val TimeOutSeconds = 90L
     private const val MaxRequests = 64
     private const val MaxRequestsPerHost = 5
 
