@@ -87,6 +87,9 @@ dependencies {
 //    Lottie
     implementation(libs.lottie.compose)
 
+//    Coil
+    implementation(libs.coil.compose)
+
 //    Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
@@ -98,6 +101,13 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+
+//    Retrofit
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+
+//    OkHttp
+    implementation(libs.okhttp)
 
 //    Serialization
     implementation(libs.kotlinx.serialization.json)
