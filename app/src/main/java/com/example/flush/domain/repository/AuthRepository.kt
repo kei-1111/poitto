@@ -10,4 +10,5 @@ interface AuthRepository {
     suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser>
     suspend fun requestGoogleOneTapAuth(): IntentSenderRequest
     suspend fun signInWithGoogle(resultData: Intent): Result<AuthResult>
+    suspend fun signOut(): Result<Unit>
 }
