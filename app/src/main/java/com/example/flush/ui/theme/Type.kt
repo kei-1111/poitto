@@ -32,6 +32,13 @@ val Typography = Typography(
         lineHeight = 28.sp,
     ),
 
+    titleSmall = TextStyle(
+        fontFamily = NotoSansJp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+    ),
+
     bodyMedium = TextStyle(
         fontFamily = NotoSansJp,
         fontWeight = FontWeight.Medium,

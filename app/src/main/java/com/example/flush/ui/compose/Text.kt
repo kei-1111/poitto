@@ -36,6 +36,20 @@ fun TitleLargeText(
 }
 
 @Composable
+fun TitleSmallText(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurface,
+) {
+    Text(
+        text = text,
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall,
+        color = color,
+    )
+}
+
+@Composable
 fun BodyMediumText(
     text: String,
     modifier: Modifier = Modifier,

@@ -8,4 +8,5 @@ sealed interface PostUiEvent : UiEvent {
     data object OnImagePickerLaunchClick : PostUiEvent
     data object OnImageRemoveClick : PostUiEvent
     data object OnMessageSendClick : PostUiEvent
+    data object OnModelTapped : PostUiEvent
 }
