@@ -24,6 +24,7 @@ class SignInWithGoogleUseCase @Inject constructor(
                             uid = authResult.getOrNull()?.user?.uid ?: "",
                             email = authResult.getOrNull()?.user?.email ?: "",
                             name = "名無し",
+                            iconUrl = authResult.getOrNull()?.user?.photoUrl.toString(),
                         )
                         val createUserResult = userRepository.createUser(user)
                         if (createUserResult.isSuccess) {
