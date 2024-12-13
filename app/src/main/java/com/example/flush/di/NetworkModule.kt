@@ -18,11 +18,14 @@ import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     private const val BASE_URL = "https://p-text-generate.onrender.com/"
+
+    private const val TimeOutSeconds = 60L
+    private const val MaxRequests = 64
+    private const val MaxRequestsPerHost = 5
 
     @Provides
     @Singleton
@@ -38,9 +41,9 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(TimeOutSeconds, TimeUnit.SECONDS)
+            .readTimeout(TimeOutSeconds, TimeUnit.SECONDS)
+            .writeTimeout(TimeOutSeconds, TimeUnit.SECONDS)
             .eventListener(object : EventListener() {
                 override fun callStart(call: Call) {
                     super.callStart(call)
@@ -54,9 +57,9 @@ object NetworkModule {
             })
             .dispatcher(
                 okhttp3.Dispatcher().apply {
-                    maxRequests = 64
-                    maxRequestsPerHost = 5
-                }
+                    maxRequests = MaxRequests
+                    maxRequestsPerHost = MaxRequestsPerHost
+                },
             )
             .dns(Dns.SYSTEM)
             .build()

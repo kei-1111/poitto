@@ -40,6 +40,6 @@ object RepositoryModule {
     @Singleton
     fun provideEmotionAnalysisRepository(
         emotionAnalysisApi: EmotionAnalysisApi,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): EmotionAnalysisRepository = EmotionAnalysisRepositoryImpl(emotionAnalysisApi, ioDispatcher)
 }

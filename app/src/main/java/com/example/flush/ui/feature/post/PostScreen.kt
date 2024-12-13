@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 @Composable
 fun PostScreen(
     navigateToSearch: () -> Unit,
-    viewModel: PostViewModel = hiltViewModel()
+    viewModel: PostViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -43,7 +43,7 @@ fun PostScreen(
 
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> viewModel.updateImageUri(uri) }
+        onResult = { uri -> viewModel.updateImageUri(uri) },
     )
 
     val focusManager = LocalFocusManager.current
@@ -56,8 +56,8 @@ fun PostScreen(
                 is PostUiEvent.OnImagePickerLaunchClick -> {
                     focusManager.clearFocus()
                     imagePickerLauncher.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                        )
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
+                    )
                 }
                 is PostUiEvent.OnImageRemoveClick -> viewModel.updateImageUri(null)
                 is PostUiEvent.OnMessageSendClick -> viewModel.toThrowPhase()
@@ -76,7 +76,7 @@ fun PostScreen(
     PostScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
@@ -98,7 +98,7 @@ private fun PostScreen(
 
                 PostUiPhase.Throwing -> {}
             }
-        }
+        },
     ) { innerPadding ->
         PostScreenContent(
             uiState = uiState,

@@ -3,9 +3,6 @@ package com.example.flush.ui.feature.post
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.flush.data.api.EmotionAnalysisApi
-import com.example.flush.data.model.AnalyzeEmotionRequest
-import com.example.flush.domain.repository.EmotionAnalysisRepository
 import com.example.flush.domain.use_case.EmotionAnalysisUseCase
 import com.example.flush.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

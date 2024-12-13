@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class EmotionAnalysisRepositoryImpl @Inject constructor(
     private val emotionAnalysisApi: EmotionAnalysisApi,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : EmotionAnalysisRepository {
 
     override suspend fun analyzeEmotion(text: String): Emotion =

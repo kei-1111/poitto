@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -20,8 +18,6 @@ import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,23 +26,23 @@ import com.example.flush.ui.compose.AsyncImage
 import com.example.flush.ui.compose.Container
 import com.example.flush.ui.compose.Icon
 import com.example.flush.ui.compose.IconButton
-
 import com.example.flush.ui.theme.dimensions.Alpha
 import com.example.flush.ui.theme.dimensions.Paddings
 import com.example.flush.ui.theme.dimensions.Weights
 
+@Suppress("ModifierNotUsedAtRoot")
 @Composable
 fun PostScreenContent(
     uiState: PostUiState,
     onEvent: (PostUiEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box {
         when (uiState.phase) {
             PostUiPhase.Writing -> PostScreenWritingPhaseContent(
                 uiState = uiState,
                 onEvent = onEvent,
-                modifier = modifier
+                modifier = modifier,
             )
             PostUiPhase.Throwing -> {}
         }
@@ -57,16 +53,16 @@ fun PostScreenContent(
 private fun PostScreenWritingPhaseContent(
     uiState: PostUiState,
     onEvent: (PostUiEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Box (
+    Box(
         modifier = modifier
-            .padding(Paddings.Large)
+            .padding(Paddings.Large),
     ) {
         WriteField(
             uiState = uiState,
             onEvent = onEvent,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -75,14 +71,14 @@ private fun PostScreenWritingPhaseContent(
 private fun WriteField(
     uiState: PostUiState,
     onEvent: (PostUiEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Container(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
             modifier = Modifier.padding(Paddings.Medium),
-            verticalArrangement = Arrangement.spacedBy(Paddings.Medium)
+            verticalArrangement = Arrangement.spacedBy(Paddings.Medium),
         ) {
             BasicTextField(
                 value = uiState.message,
@@ -96,13 +92,13 @@ private fun WriteField(
                     deleteImage = { onEvent(PostUiEvent.OnImageRemoveClick) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(Weights.Medium, fill = false)
+                        .weight(Weights.Medium, fill = false),
                 )
             }
             ActionIcons(
                 uiState = uiState,
                 onEvent = onEvent,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -112,7 +108,7 @@ private fun WriteField(
 private fun ImagePreview(
     imageUri: Uri,
     deleteImage: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -122,7 +118,7 @@ private fun ImagePreview(
             uri = imageUri,
             modifier = Modifier
                 .align(Alignment.Center),
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Fit,
         )
         IconButton(
             icon = Icons.Outlined.Close,
@@ -136,32 +132,32 @@ private fun ImagePreview(
 }
 
 @Composable
-private fun ActionIcons (
+private fun ActionIcons(
     uiState: PostUiState,
     onEvent: (PostUiEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val isSendEnabled = uiState.message.isNotBlank() || uiState.imageUri != null
 
     Row(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Icon(
             icon = Icons.Outlined.Image,
             modifier = Modifier.clickable {
                 onEvent(PostUiEvent.OnImagePickerLaunchClick)
-            }
+            },
         )
         Spacer(
-            modifier = Modifier.weight(Weights.Medium)
+            modifier = Modifier.weight(Weights.Medium),
         )
         Icon(
             icon = if (isSendEnabled) Icons.Filled.Send else Icons.Outlined.Send,
             modifier = Modifier.clickable(
-                enabled = isSendEnabled
+                enabled = isSendEnabled,
             ) {
                 onEvent(PostUiEvent.OnMessageSendClick)
-            }
+            },
         )
     }
 }

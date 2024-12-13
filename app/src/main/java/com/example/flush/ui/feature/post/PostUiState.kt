@@ -6,7 +6,7 @@ import com.example.flush.ui.base.UiState
 data class PostUiState(
     val message: String = "",
     val imageUri: Uri? = null,
-    val phase: PostUiPhase = PostUiPhase.Writing
+    val phase: PostUiPhase = PostUiPhase.Writing,
 ) : UiState
 
 enum class PostUiPhase {
