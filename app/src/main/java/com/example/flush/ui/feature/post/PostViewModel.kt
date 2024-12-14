@@ -108,14 +108,11 @@ class PostViewModel @Inject constructor(
     fun saveThrowingItem() {
         viewModelScope.launch {
             if (throwingItem.isSavable()) {
-                val result = createThrowingItemUseCase(throwingItem)
-                if (result.isSuccess) {
-                    sendEffect(PostUiEffect.ShowToast("Saved"))
-                } else {
-                    sendEffect(PostUiEffect.ShowToast("Failed to save"))
-                }
+                updateUiState { it.copy(isLoading = false) }
+                createThrowingItemUseCase(throwingItem)
                 sendEffect(PostUiEffect.NavigateToSearch)
             } else {
+                updateUiState { it.copy(isLoading = true) }
                 sendEffect(PostUiEffect.ShowToast("Please fill in all fields"))
             }
         }
@@ -154,6 +151,7 @@ class PostViewModel @Inject constructor(
             val result = emotionAnalysisUseCase.analyzeEmotion(text)
             throwingItem = throwingItem.copy(emotion = result)
             throwingItem = throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
+            updateUiState { it.copy(isLoading = false) }
             Log.d("PostViewModel", "analyzeEmotion: $result")
         }
     }
@@ -163,6 +161,7 @@ class PostViewModel @Inject constructor(
             val result = emotionAnalysisUseCase.gemini(text)
             Log.d("PostViewModel", "gemini: $result")
             updateUiState { it.copy(responseMessage = result.trimEnd()) }
+            updateUiState { it.copy(isLoading = false) }
         }
     }
 
