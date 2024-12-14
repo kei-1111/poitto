@@ -1,5 +1,7 @@
 package com.example.flush.ui.feature.search
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -25,6 +28,7 @@ import com.example.flush.ui.compose.FloatingActionButton
 import com.example.flush.ui.compose.Icon
 import com.example.flush.ui.compose.Loading
 import com.example.flush.ui.compose.TopBar
+import com.example.flush.ui.feature.search.SearchScreenDimensions.UserIconBorderWidth
 import com.example.flush.ui.theme.dimensions.IconSize
 import com.example.flush.ui.theme.dimensions.Paddings
 import com.example.flush.ui.utils.showToast
@@ -102,13 +106,12 @@ private fun SearchScreen(
                 onNavigateToPost = { onEvent(SearchUiEvent.OnNavigateToPostClick) },
             )
         },
-    ) { innerPadding ->
+    ) { _ ->
         SearchScreenContent(
             uiState = uiState,
             onEvent = onEvent,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding()),
+                .fillMaxSize(),
         )
     }
 
@@ -129,31 +132,79 @@ private fun SearchScreenTopBar(
         title = "サーチ",
         modifier = modifier,
         actions = {
-            when {
-                userIconUrl != null -> {
-                    AsyncImage(
-                        uri = userIconUrl,
-                        modifier = Modifier
-                            .padding(end = Paddings.Medium)
-                            .size(IconSize.Medium)
-                            .clickable { onNavigateToUserSettings() },
-                        shape = CircleShape,
-                    )
-                }
-
-                else -> {
-                    Icon(
-                        icon = Icons.Rounded.Person,
-                        modifier = Modifier
-                            .size(IconSize.Medium)
-                            .padding(end = Paddings.Medium)
-                            .clip(CircleShape)
-                            .clickable { onNavigateToUserSettings() },
-                        size = IconSize.Medium,
-                    )
-                }
-            }
+            TopBarActionButton(
+                userIconUrl = userIconUrl,
+                onNavigateToUserSettings = onNavigateToUserSettings,
+            )
         },
+        contentColor = Color.White,
+        containerColor = Color.Transparent,
+    )
+}
+
+@Composable
+private fun TopBarActionButton(
+    userIconUrl: String?,
+    onNavigateToUserSettings: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    when {
+        userIconUrl != null -> {
+            UserIcon(
+                userIconUrl = userIconUrl,
+                modifier = modifier
+                    .clickable { onNavigateToUserSettings() },
+            )
+        }
+
+        else -> {
+            DefaultUseIcon(
+                modifier = modifier
+                    .clickable { onNavigateToUserSettings() },
+            )
+        }
+    }
+}
+
+@Composable
+private fun UserIcon(
+    userIconUrl: String,
+    modifier: Modifier = Modifier,
+) {
+    AsyncImage(
+        uri = userIconUrl,
+        modifier = modifier
+            .padding(end = Paddings.Medium)
+            .size(IconSize.Medium)
+            .border(
+                border = BorderStroke(
+                    width = UserIconBorderWidth,
+                    color = Color.White,
+                ),
+                shape = CircleShape,
+            ),
+        shape = CircleShape,
+    )
+}
+
+@Composable
+private fun DefaultUseIcon(
+    modifier: Modifier = Modifier,
+) {
+    Icon(
+        icon = Icons.Rounded.Person,
+        modifier = modifier
+            .size(IconSize.Medium)
+            .padding(end = Paddings.Medium)
+            .border(
+                border = BorderStroke(
+                    width = UserIconBorderWidth,
+                    color = Color.White,
+                ),
+                shape = CircleShape,
+            )
+            .clip(CircleShape),
+        size = IconSize.Medium,
     )
 }
 
