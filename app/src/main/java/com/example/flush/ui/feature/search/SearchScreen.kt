@@ -20,8 +20,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.example.flush.ui.compose.AsyncImage
+import com.example.flush.ui.compose.FadeInAnimateVisibility
 import com.example.flush.ui.compose.FloatingActionButton
 import com.example.flush.ui.compose.Icon
+import com.example.flush.ui.compose.Loading
 import com.example.flush.ui.compose.TopBar
 import com.example.flush.ui.theme.dimensions.IconSize
 import com.example.flush.ui.theme.dimensions.Paddings
@@ -108,6 +110,12 @@ private fun SearchScreen(
                 .fillMaxSize()
                 .padding(top = innerPadding.calculateTopPadding()),
         )
+    }
+
+    FadeInAnimateVisibility(
+        visible = uiState.isLoading,
+    ) {
+        Loading()
     }
 }
 

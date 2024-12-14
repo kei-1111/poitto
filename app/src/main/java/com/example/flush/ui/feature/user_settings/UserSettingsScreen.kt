@@ -21,7 +21,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
+import com.example.flush.ui.compose.FadeInAnimateVisibility
 import com.example.flush.ui.compose.IconButton
+import com.example.flush.ui.compose.Loading
 import com.example.flush.ui.compose.TopBar
 import com.example.flush.ui.utils.showToast
 import kotlinx.coroutines.flow.launchIn
@@ -109,6 +111,12 @@ private fun UserSettingsScreen(
             onEvent = onEvent,
             modifier = Modifier.padding(innerPadding),
         )
+    }
+
+    FadeInAnimateVisibility(
+        visible = uiState.isLoading,
+    ) {
+        Loading()
     }
 }
 

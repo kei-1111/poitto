@@ -5,6 +5,7 @@ import android.net.Uri
 import com.example.flush.ui.base.UiState
 
 data class PostUiState(
+    val isLoading: Boolean = false,
     val message: String = "",
     val imageUri: Uri? = null,
     val textureBitmap: Bitmap? = null,
