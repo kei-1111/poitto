@@ -1,5 +1,6 @@
 package com.example.flush.ui.feature.post
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -11,19 +12,24 @@ import com.example.flush.domain.use_case.CreateThrowingItemUseCase
 import com.example.flush.domain.use_case.EmotionAnalysisUseCase
 import com.example.flush.domain.use_case.GetCurrentUserUseCase
 import com.example.flush.domain.use_case.UploadThrowingItemImageUseCase
+import com.example.flush.domain.use_case.UploadThrowingItemTextureBitmapUseCase
 import com.example.flush.ui.base.BaseViewModel
+import com.example.flush.ui.utils.BitmapUtils
+import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 @HiltViewModel
 class PostViewModel @Inject constructor(
     private val emotionAnalysisUseCase: EmotionAnalysisUseCase,
     private val getCurrentUserUseCase: GetCurrentUserUseCase,
     private val createThrowingItemUseCase: CreateThrowingItemUseCase,
     private val uploadThrowingItemImageUseCase: UploadThrowingItemImageUseCase,
+    private val uploadThrowingItemTextureBitmapUseCase: UploadThrowingItemTextureBitmapUseCase,
 ) : BaseViewModel<PostUiState, PostUiEvent, PostUiEffect>(PostUiState()) {
 
     private var currentUser: User? = null
@@ -62,14 +68,40 @@ class PostViewModel @Inject constructor(
         }
     }
 
-    fun toThrowPhase() {
+    fun toThrowPhase(
+        context: Context,
+        textColor: Int,
+        backgroundColor: Int,
+    ) {
         viewModelScope.launch {
-            updateUiState { it.copy(phase = PostUiPhase.Throwing) }
+            val imageUri = _uiState.value.imageUri
             val message = _uiState.value.message
             throwingItem = throwingItem.copy(message = message)
+            createTextureBitmap(context, textColor, backgroundColor, imageUri, message)
             analyzeEmotion(message)
             gemini(message)
             uploadImage()
+            uploadTextureBitmap()
+            updateUiState { it.copy(phase = PostUiPhase.Throwing) }
+        }
+    }
+
+    private fun createTextureBitmap(
+        context: Context,
+        textColor: Int,
+        backgroundColor: Int,
+        imageUri: Uri?,
+        message: String,
+    ) {
+        viewModelScope.launch {
+            val imageBitmap = uriToBitmap(context, imageUri)
+            val textureBitmap = BitmapUtils.createTextureBitmap(
+                text = message,
+                imageBitmap = imageBitmap,
+                textColor = textColor,
+                backgroundColor = backgroundColor,
+            )
+            updateUiState { it.copy(textureBitmap = textureBitmap) }
         }
     }
 
@@ -98,6 +130,20 @@ class PostViewModel @Inject constructor(
                     throwingItem = throwingItem.copy(imageUrl = result.getOrNull())
                 } else {
                     Log.e(TAG, "uploadImage: Failed to upload image")
+                }
+            }
+        }
+    }
+
+    private fun uploadTextureBitmap() {
+        viewModelScope.launch {
+            val textureBitmap = _uiState.value.textureBitmap
+            textureBitmap?.let {
+                val result = uploadThrowingItemTextureBitmapUseCase(throwingItem.id, it)
+                if (result.isSuccess && result.getOrNull() != null) {
+                    throwingItem = throwingItem.copy(textureUrl = result.getOrNull()!!)
+                } else {
+                    Log.e(TAG, "uploadTextureBitmap: Failed to upload texture bitmap")
                 }
             }
         }

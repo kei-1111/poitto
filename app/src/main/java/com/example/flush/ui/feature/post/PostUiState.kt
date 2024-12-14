@@ -1,11 +1,13 @@
 package com.example.flush.ui.feature.post
 
+import android.graphics.Bitmap
 import android.net.Uri
 import com.example.flush.ui.base.UiState
 
 data class PostUiState(
     val message: String = "",
     val imageUri: Uri? = null,
+    val textureBitmap: Bitmap? = null,
     val phase: PostUiPhase = PostUiPhase.Writing,
     val animationState: PostUiAnimationState = PostUiAnimationState.Idle,
     val responseMessage: String = "",

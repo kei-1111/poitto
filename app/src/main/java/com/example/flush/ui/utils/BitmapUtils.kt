@@ -42,19 +42,18 @@ data object BitmapUtils {
         }
     }
 
-    suspend fun urlToBitmap(context: Context, imageUrl: String?): Bitmap {
+    suspend fun urlToBitmap(context: Context, imageUrl: String?): Bitmap? {
         return try {
             val request = ImageRequest.Builder(context).data(imageUrl).build()
             val result = context.imageLoader.execute(request)
             if (result is SuccessResult) {
                 (result.drawable as? BitmapDrawable)?.bitmap
-                    ?: BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
             } else {
-                BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
+                null
             }
         } catch (e: Exception) {
             Log.e(TAG, "Failed to load image from url: $imageUrl", e)
-            BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
+            null
         }
     }
 
