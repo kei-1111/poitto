@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,6 +19,7 @@ fun TopBar(
     @Composable()
     (RowScope.() -> Unit) = {},
     contentColor: Color = MaterialTheme.colorScheme.primary,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
 ) {
     TopAppBar(
         title = {
@@ -31,5 +33,8 @@ fun TopBar(
         modifier = modifier,
         navigationIcon = navigationIcon,
         actions = actions,
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = containerColor,
+        ),
     )
 }
