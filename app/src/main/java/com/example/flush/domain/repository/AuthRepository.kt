@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseUser
 interface AuthRepository {
     fun getCurrentUser(): FirebaseUser?
     suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser>
+    suspend fun signInWithEmail(email: String, password: String): Result<AuthResult>
     suspend fun requestGoogleOneTapAuth(): IntentSenderRequest
     suspend fun signInWithGoogle(resultData: Intent): Result<AuthResult>
     suspend fun signOut(): Result<Unit>
