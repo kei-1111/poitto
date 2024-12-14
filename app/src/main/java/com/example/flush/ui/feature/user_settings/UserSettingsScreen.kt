@@ -116,7 +116,7 @@ private fun UserSettingsScreen(
     FadeInAnimateVisibility(
         visible = uiState.isLoading,
     ) {
-         Loading()
+        Loading()
     }
 }
 

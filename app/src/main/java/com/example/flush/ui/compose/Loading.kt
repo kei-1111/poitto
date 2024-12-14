@@ -21,7 +21,7 @@ fun Loading(
 ) {
     CenteredContainer(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.scrim.copy(alpha = Alpha.Medium))
+            .background(MaterialTheme.colorScheme.scrim.copy(alpha = Alpha.Medium)),
     ) {
         Surface(
             modifier = Modifier.size(LottieSize),
