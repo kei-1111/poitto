@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import com.example.flush.ui.utils.BitmapUtils.createTextureBitmap
 import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
-import com.example.flush.ui.utils.BitmapUtils.urlToBitmap
 import com.google.android.filament.Engine
 import com.google.android.filament.MaterialInstance
 import com.google.android.filament.Texture
@@ -74,30 +73,6 @@ data object SceneviewUtils {
         return textureBitmap
     }
 
-    @Composable
-    fun loadTextureBitmapFromUrl(
-        context: Context,
-        imageUrl: String?,
-        message: String,
-        textColor: Int,
-        backgroundColor: Int,
-    ): Bitmap? {
-        val imageBitmap by produceState<Bitmap?>(initialValue = null, imageUrl) {
-            value = urlToBitmap(context, imageUrl)
-        }
-
-        val textureBitmap by produceState<Bitmap?>(initialValue = null, imageBitmap, message) {
-            value = createTextureBitmap(
-                text = message,
-                imageBitmap = imageBitmap,
-                textColor = textColor,
-                backgroundColor = backgroundColor,
-            )
-        }
-
-        return textureBitmap
-    }
-
     fun applyTextureToAlpha(materialInstance: MaterialInstance, alpha: Float) {
         materialInstance.setParameter("baseColorFactor", 1.0f, 1.0f, 1.0f, alpha)
     }
@@ -107,16 +82,17 @@ data object SceneviewUtils {
     }
 
     private fun createTexture(engine: Engine, bitmap: Bitmap): Texture {
+        val mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true)
         val texture = Texture.Builder()
-            .width(bitmap.width)
-            .height(bitmap.height)
+            .width(mutableBitmap.width)
+            .height(mutableBitmap.height)
             .levels(1)
             .sampler(Texture.Sampler.SAMPLER_2D)
             .format(Texture.InternalFormat.SRGB8_A8)
             .build(engine)
 
-        val buffer = ByteBuffer.allocateDirect(bitmap.byteCount)
-        bitmap.copyPixelsToBuffer(buffer)
+        val buffer = ByteBuffer.allocateDirect(mutableBitmap.byteCount)
+        mutableBitmap.copyPixelsToBuffer(buffer)
         buffer.flip()
         texture.setImage(
             engine,

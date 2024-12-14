@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,6 +50,9 @@ fun PostScreen(
 
     val focusManager = LocalFocusManager.current
 
+    val textureBitmapTextColor = MaterialTheme.colorScheme.onSurface.toArgb()
+    val textureBitmapBackgroundColor = MaterialTheme.colorScheme.surface.toArgb()
+
     LaunchedEffect(lifecycleOwner, viewModel) {
         viewModel.uiEvent.flowWithLifecycle(lifecycleOwner.lifecycle).onEach { event ->
             when (event) {
@@ -61,7 +65,13 @@ fun PostScreen(
                     )
                 }
                 is PostUiEvent.OnImageRemoveClick -> viewModel.updateImageUri(null)
-                is PostUiEvent.OnMessageSendClick -> viewModel.toThrowPhase()
+                is PostUiEvent.OnMessageSendClick -> {
+                    viewModel.toThrowPhase(
+                        context = context,
+                        textColor = textureBitmapTextColor,
+                        backgroundColor = textureBitmapBackgroundColor,
+                    )
+                }
                 is PostUiEvent.OnModelTapped -> viewModel.startAnimation()
                 is PostUiEvent.OnResponseMessageViewerClick -> viewModel.saveThrowingItem()
             }

@@ -1,10 +1,12 @@
 package com.example.flush.data.repository
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import com.example.flush.di.IoDispatcher
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.repository.ThrowingItemRepository
+import com.example.flush.ktx.toByteArray
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineDispatcher
@@ -51,6 +53,20 @@ class ThrowingItemRepositoryImpl @Inject constructor(
                 Result.success(result.toString())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to upload image", e)
+                Result.failure(e)
+            }
+        }
+
+    override suspend fun uploadTextureBitmap(throwingItemId: String, textureBitmap: Bitmap): Result<String> =
+        withContext(ioDispatcher) {
+            try {
+                val imageRef = storage.reference.child("throwing_items/$throwingItemId/texture.jpg")
+                val data = textureBitmap.toByteArray()
+                imageRef.putBytes(data).await()
+                val result = imageRef.downloadUrl.await()
+                Result.success(result.toString())
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to upload texture bitmap", e)
                 Result.failure(e)
             }
         }

@@ -2,19 +2,17 @@ package com.example.flush.ui.feature.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.example.flush.ui.compositon_local.LocalEngine
 import com.example.flush.ui.compositon_local.LocalGraphicsView
 import com.example.flush.ui.compositon_local.LocaleEnvironment
+import com.example.flush.ui.utils.BitmapUtils.urlToBitmap
 import com.example.flush.ui.utils.SceneviewUtils.createModelNode
-import com.example.flush.ui.utils.SceneviewUtils.loadTextureBitmapFromUrl
 import io.github.sceneview.Scene
 import io.github.sceneview.math.Position
 import io.github.sceneview.node.ModelNode
@@ -47,22 +45,14 @@ fun SearchScreenContent(
     val modelNodes = remember { mutableStateListOf<Pair<ModelNode, Direction>>() } // ModelNodeと方向ベクトルをペアで保持
 
     uiState.throwingItems.forEachIndexed { index, item ->
-        val textureBitmap = loadTextureBitmapFromUrl(
-            context = context,
-            imageUrl = item.imageUrl,
-            message = item.message,
-            textColor = MaterialTheme.colorScheme.onSurface.toArgb(),
-            backgroundColor = MaterialTheme.colorScheme.surface.toArgb(),
-        )
-
-        LaunchedEffect(textureBitmap, index) {
-            if (textureBitmap != null) {
+        LaunchedEffect(index) {
+            urlToBitmap(context, item.textureUrl)?.let {
                 val modelNode = createModelNode(
                     engine = engine,
                     modelLoader = modelLoader,
                     assetFileLocation = "models/plate_alpha.glb",
                     id = item.id,
-                    textureBitmap = textureBitmap,
+                    textureBitmap = it,
                     scaleToUnits = 0.25f,
                 )
 
