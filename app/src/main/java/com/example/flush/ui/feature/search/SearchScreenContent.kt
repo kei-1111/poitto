@@ -25,6 +25,8 @@ import io.github.sceneview.rememberOnGestureListener
 import kotlin.random.Random
 
 private const val SpeedFactor = 0.1f
+private const val MinPositionValue = -2f
+private const val MaxPositionValue = 2f
 
 @Suppress("LongMethod", "MultipleEmitters")
 @Composable
@@ -102,9 +104,9 @@ fun SearchScreenContent(
 
                     // 範囲チェック (例えば -1.0f～1.0f の範囲内に制約)
                     node.position = Position(
-                        x = newPosition.x.coerceIn(-1.0f, 1.0f),
-                        y = newPosition.y.coerceIn(-1.0f, 1.0f),
-                        z = newPosition.z.coerceIn(-1.0f, 1.0f),
+                        x = newPosition.x.coerceIn(MinPositionValue, MaxPositionValue),
+                        y = newPosition.y.coerceIn(MinPositionValue, MaxPositionValue),
+                        z = newPosition.z.coerceIn(MinPositionValue, MaxPositionValue),
                     )
 
                     // 回転速度を適用
@@ -112,10 +114,10 @@ fun SearchScreenContent(
                     node.rotation.y += direction.rotationSpeed * SpeedFactor
 
                     // 範囲外に出たら方向を反転
-                    if (newPosition.x <= -1.0f || newPosition.x >= 1.0f) {
+                    if (newPosition.x <= MinPositionValue || newPosition.x >= MaxPositionValue) {
                         modelNodes[index] = node to direction.copy(x = -direction.x)
                     }
-                    if (newPosition.y <= -1.0f || newPosition.y >= 1.0f) {
+                    if (newPosition.y <= MinPositionValue || newPosition.y >= MaxPositionValue) {
                         modelNodes[index] = node to direction.copy(y = -direction.y)
                     }
                 }
@@ -143,14 +145,15 @@ data class Direction(
     }
 }
 
-private const val MinPositionValue = -2
-private const val MaxPositionValue = 2
-
 private fun randomPosition() = Position(
-    x = Random.nextInt(MinPositionValue, MaxPositionValue).toFloat(),
-    y = Random.nextInt(MinPositionValue, MaxPositionValue).toFloat(),
-    z = Random.nextInt(MinPositionValue, MaxPositionValue).toFloat(),
+    x = Random.nextFloatInRange(MinPositionValue, MaxPositionValue),
+    y = Random.nextFloatInRange(MinPositionValue, MaxPositionValue),
+    z = Random.nextFloatInRange(MinPositionValue, MaxPositionValue),
 )
+
+private fun Random.nextFloatInRange(min: Float, max: Float): Float {
+    return min + this.nextFloat() * (max - min)
+}
 
 private const val MinRotationValue = 0
 private const val MaxRotationValue = 360
