@@ -3,9 +3,11 @@ package com.example.flush.di
 import com.example.flush.data.api.EmotionAnalysisApi
 import com.example.flush.data.repository.AuthRepositoryImpl
 import com.example.flush.data.repository.EmotionAnalysisRepositoryImpl
+import com.example.flush.data.repository.ThrowingItemRepositoryImpl
 import com.example.flush.data.repository.UserRepositoryImpl
 import com.example.flush.domain.repository.AuthRepository
 import com.example.flush.domain.repository.EmotionAnalysisRepository
+import com.example.flush.domain.repository.ThrowingItemRepository
 import com.example.flush.domain.repository.UserRepository
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
@@ -44,4 +46,12 @@ object RepositoryModule {
         emotionAnalysisApi: EmotionAnalysisApi,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
     ): EmotionAnalysisRepository = EmotionAnalysisRepositoryImpl(emotionAnalysisApi, ioDispatcher)
+
+    @Provides
+    @Singleton
+    fun provideThrowingItemRepository(
+        firestore: FirebaseFirestore,
+        storage: FirebaseStorage,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
+    ): ThrowingItemRepository = ThrowingItemRepositoryImpl(firestore, storage, ioDispatcher)
 }

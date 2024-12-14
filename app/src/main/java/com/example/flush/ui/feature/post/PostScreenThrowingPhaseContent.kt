@@ -71,7 +71,7 @@ fun PostScreenThrowingPhaseContent(
         ) {
             ResponseMessageViewer(
                 responseMessage = uiState.responseMessage,
-                onNavigateToSearch = { onEvent(PostUiEvent.OnNavigateToSearchClick) },
+                onNavigateToSearch = { onEvent(PostUiEvent.OnResponseMessageViewerClick) },
                 modifier = Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing)
                     .padding(Paddings.Large),

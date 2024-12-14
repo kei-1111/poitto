@@ -63,6 +63,7 @@ fun PostScreen(
                 is PostUiEvent.OnImageRemoveClick -> viewModel.updateImageUri(null)
                 is PostUiEvent.OnMessageSendClick -> viewModel.toThrowPhase()
                 is PostUiEvent.OnModelTapped -> viewModel.startAnimation()
+                is PostUiEvent.OnResponseMessageViewerClick -> viewModel.saveThrowingItem()
             }
         }.launchIn(this)
     }
@@ -71,6 +72,7 @@ fun PostScreen(
         viewModel.uiEffect.flowWithLifecycle(lifecycleOwner.lifecycle).onEach { effect ->
             when (effect) {
                 is PostUiEffect.ShowToast -> showToast(context, effect.message)
+                is PostUiEffect.NavigateToSearch -> latestNavigateToSearch()
             }
         }.launchIn(this)
     }

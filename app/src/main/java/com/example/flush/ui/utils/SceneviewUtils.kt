@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import com.example.flush.ui.utils.BitmapUtils.createTextureBitmap
 import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
+import com.example.flush.ui.utils.BitmapUtils.urlToBitmap
 import com.google.android.filament.Engine
 import com.google.android.filament.MaterialInstance
 import com.google.android.filament.Texture
@@ -59,6 +60,30 @@ data object SceneviewUtils {
         }
 
         // 非同期でテクスチャビットマップを作成
+        val textureBitmap by produceState<Bitmap?>(initialValue = null, imageBitmap, message) {
+            value = createTextureBitmap(
+                text = message,
+                imageBitmap = imageBitmap,
+                textColor = textColor,
+                backgroundColor = backgroundColor,
+            )
+        }
+
+        return textureBitmap
+    }
+
+    @Composable
+    fun loadTextureBitmapFromUrl(
+        context: Context,
+        imageUrl: String?,
+        message: String,
+        textColor: Int,
+        backgroundColor: Int,
+    ): Bitmap? {
+        val imageBitmap by produceState<Bitmap?>(initialValue = null, imageUrl) {
+            value = urlToBitmap(context, imageUrl)
+        }
+
         val textureBitmap by produceState<Bitmap?>(initialValue = null, imageBitmap, message) {
             value = createTextureBitmap(
                 text = message,

@@ -1,7 +1,5 @@
 package com.example.flush.ui.feature.search
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,14 +14,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.example.flush.ui.base.UiEffect
+import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.ui.compose.BodyMediumText
 import com.example.flush.ui.compose.CenteredContainer
 import com.example.flush.ui.compose.FilledButton
-import com.example.flush.ui.feature.sign_up.SignUpUiEffect
-import com.example.flush.ui.feature.sign_up.SignUpUiEvent
 import com.example.flush.ui.theme.dimensions.Weights
 import com.example.flush.ui.utils.showToast
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -32,9 +30,10 @@ import kotlinx.coroutines.flow.onEach
 fun SearchScreen(
     navigateToPost: () -> Unit,
     navigateToUserSettings: () -> Unit,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val throwingItems = viewModel.throwingItems
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -61,7 +60,7 @@ fun SearchScreen(
     }
 
     SearchScreen(
-        uiState = uiState,
+        throwingItems = throwingItems.toPersistentList(),
         onEvent = viewModel::onEvent,
         modifier = Modifier.fillMaxSize(),
     )
@@ -69,13 +68,13 @@ fun SearchScreen(
 
 @Composable
 private fun SearchScreen(
-    uiState: SearchUiState,
+    throwingItems: ImmutableList<ThrowingItem>,
     onEvent: (SearchUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold (
+    Scaffold(
         modifier = modifier,
-    ){ innerPadding ->
+    ) { innerPadding ->
         CenteredContainer(
             modifier = Modifier.padding(innerPadding),
         ) {
@@ -85,15 +84,14 @@ private fun SearchScreen(
                 )
                 FilledButton(
                     text = "navigateToPost",
-                    onClick = {onEvent(SearchUiEvent.OnNavigateToPostClick)},
+                    onClick = { onEvent(SearchUiEvent.OnNavigateToPostClick) },
                 )
                 FilledButton(
                     text = "navigateToSignUserSettings",
                     onClick = { onEvent(SearchUiEvent.OnNavigateToUserSettingsClick) },
                 )
                 SearchScreenContent(
-                    uiState = uiState,
-                    onEvent = onEvent,
+                    throwingItems = throwingItems,
                     modifier = Modifier.weight(Weights.Medium),
                 )
             }

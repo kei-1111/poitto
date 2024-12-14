@@ -9,8 +9,12 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.util.Log
+import coil.imageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.example.flush.R
 import kotlin.math.roundToInt
 
@@ -26,12 +30,30 @@ data object BitmapUtils {
     private const val ImageVerticalPadding = 200f
     private const val CornerRadius = 20f
 
+    private const val TAG = "BitmapUtils"
+
     fun uriToBitmap(context: Context, uri: Uri?): Bitmap {
         return try {
             val inputStream = uri?.let { context.contentResolver.openInputStream(it) }
             BitmapFactory.decodeStream(inputStream).also { inputStream?.close() }
         } catch (e: Exception) {
             Log.e("BitmapUtils.uriToBitmap", "Failed to load image from uri: $uri", e)
+            BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
+        }
+    }
+
+    suspend fun urlToBitmap(context: Context, imageUrl: String?): Bitmap {
+        return try {
+            val request = ImageRequest.Builder(context).data(imageUrl).build()
+            val result = context.imageLoader.execute(request)
+            if (result is SuccessResult) {
+                (result.drawable as? BitmapDrawable)?.bitmap
+                    ?: BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
+            } else {
+                BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to load image from url: $imageUrl", e)
             BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
         }
     }
@@ -107,8 +129,14 @@ data object BitmapUtils {
         maxHeight: Int,
         cornerRadius: Float, // 角丸の半径
     ): Bitmap {
-        val originalWidth = originalBitmap.width
-        val originalHeight = originalBitmap.height
+        val bitmapToUse = if (originalBitmap.config == Bitmap.Config.HARDWARE) {
+            originalBitmap.copy(Bitmap.Config.ARGB_8888, false)
+        } else {
+            originalBitmap
+        }
+
+        val originalWidth = bitmapToUse.width
+        val originalHeight = bitmapToUse.height
 
         val widthScale = maxWidth.toFloat() / originalWidth
         val heightScale = maxHeight.toFloat() / originalHeight
@@ -117,8 +145,7 @@ data object BitmapUtils {
         val scaledWidth = (originalWidth * scaleFactor).toInt()
         val scaledHeight = (originalHeight * scaleFactor).toInt()
 
-        val scaledBitmap =
-            Bitmap.createScaledBitmap(originalBitmap, scaledWidth, scaledHeight, true)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmapToUse, scaledWidth, scaledHeight, true)
 
         val outputBitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(outputBitmap)
