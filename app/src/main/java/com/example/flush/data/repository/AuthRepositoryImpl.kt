@@ -46,6 +46,16 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun signInWithEmail(email: String, password: String): Result<AuthResult> =
+        withContext(ioDispatcher) {
+            try {
+                val result = auth.signInWithEmailAndPassword(email, password).await()
+                Result.success(result)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+
     override suspend fun requestGoogleOneTapAuth(): IntentSenderRequest =
         withContext(ioDispatcher) {
             try {
