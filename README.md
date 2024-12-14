@@ -35,8 +35,12 @@ Poitto (ポイット)
 - 木村星凱：バックエンド・LLM
 
 ### 開発における工夫した点  
-#### Git/GitHub
 
+#### コミュニケーション
+できるだけ対面で話し合いを行い、認識のズレが起きないように意識した。  
+また、ドキュメントを作成しあとから見返せるようにした。
+
+#### Git/GitHub
 **ブランチ戦略**  
 今回は短期間のハッカソンということもあり、「GitHub Flow」を用いた。
 
@@ -66,6 +70,7 @@ Prefixをつけてどのようなコミットなのかわかりやすいよう�
 
 #### Android
 - Jetpack Compose
+- Material3
 - Sceneview
 - Firebase Authentication
 - Cloud Firestore
@@ -93,3 +98,6 @@ Prefixをつけてどのようなコミットなのかわかりやすいよう�
 **バックエンド IDE**：VSCode
 
 **デプロイ**：Render
+
+### バックエンド リポジトリ
+https://github.com/BokunoLab-p2hacks/flash-backend/tree/main
