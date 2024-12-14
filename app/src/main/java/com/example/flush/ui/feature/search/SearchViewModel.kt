@@ -1,10 +1,9 @@
 package com.example.flush.ui.feature.search
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
-import com.example.flush.domain.model.ThrowingItem
+import com.example.flush.domain.use_case.GetCurrentUserUseCase
 import com.example.flush.domain.use_case.GetThrowingItemUseCase
 import com.example.flush.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,23 +13,41 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getThrowingItemUseCase: GetThrowingItemUseCase,
+    private val getCurrentUserUseCase: GetCurrentUserUseCase,
 ) : BaseViewModel<SearchUiState, SearchUiEvent, SearchUiEffect>(SearchUiState()) {
-
-    var throwingItems by mutableStateOf(emptyList<ThrowingItem>())
-        private set
 
     init {
         fetchThrowingItems()
+        fetchCurrentUser()
+    }
+
+    fun updateSelectedThrowingItem(throwingItemId: String?) {
+        val selectedThrowingItem =
+            _uiState.value.throwingItems.find { it.id == throwingItemId }
+        updateUiState { it.copy(selectedThrowingItem = selectedThrowingItem) }
+    }
+
+    fun updateIsShowBottomSheet(isShowBottomSheet: Boolean) {
+        updateUiState { it.copy(isShowBottomSheet = isShowBottomSheet) }
     }
 
     private fun fetchThrowingItems() {
         viewModelScope.launch {
             val result = getThrowingItemUseCase()
             if (result.isSuccess) {
-                throwingItems = result.getOrNull() ?: emptyList()
+                updateUiState { it.copy(throwingItems = result.getOrNull() ?: emptyList()) }
             } else {
                 sendEffect(SearchUiEffect.ShowToast("Failed to fetch throwing items"))
             }
+        }
+    }
+
+    private fun fetchCurrentUser() {
+        viewModelScope.launch {
+            getCurrentUserUseCase()
+                .collect { user ->
+                    updateUiState { it.copy(currentUser = user) }
+                }
         }
     }
 }

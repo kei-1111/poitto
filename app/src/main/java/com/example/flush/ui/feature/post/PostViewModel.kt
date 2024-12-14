@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.model.User
+import com.example.flush.domain.model.getExceededEmotionTypes
 import com.example.flush.domain.model.isSavable
 import com.example.flush.domain.use_case.CreateThrowingItemUseCase
 import com.example.flush.domain.use_case.EmotionAnalysisUseCase
@@ -36,11 +37,10 @@ class PostViewModel @Inject constructor(
 
     private fun fetchCurrentUser() {
         viewModelScope.launch {
-            getCurrentUserUseCase()
-                .collect { user ->
-                    currentUser = user
-                    throwingItem = throwingItem.copy(user = user)
-                }
+            getCurrentUserUseCase().collect { user ->
+                currentUser = user
+                throwingItem = throwingItem.copy(user = user)
+            }
         }
     }
 
@@ -107,6 +107,7 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             val result = emotionAnalysisUseCase.analyzeEmotion(text)
             throwingItem = throwingItem.copy(emotion = result)
+            throwingItem = throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
             Log.d("PostViewModel", "analyzeEmotion: $result")
         }
     }
@@ -121,5 +122,7 @@ class PostViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "PostViewModel"
+
+        private const val Threshold = 0.4f
     }
 }

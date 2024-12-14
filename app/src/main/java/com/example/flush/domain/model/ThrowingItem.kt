@@ -6,6 +6,7 @@ data class ThrowingItem(
     val imageUrl: String? = null,
     val user: User = User(),
     val emotion: Emotion = Emotion(),
+    val labeledEmotion: List<EmotionType> = emptyList(),
     val timestamp: Long = System.currentTimeMillis(),
 )
 

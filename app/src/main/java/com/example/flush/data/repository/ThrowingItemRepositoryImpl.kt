@@ -17,7 +17,7 @@ class ThrowingItemRepositoryImpl @Inject constructor(
     private val storage: FirebaseStorage,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ThrowingItemRepository {
-    private val throwingItemCollection = firestore.collection("throwingItems")
+    private val throwingItemCollection = firestore.collection("throwing_items")
 
     override suspend fun getThrowingItems(): Result<List<ThrowingItem>> =
         withContext(ioDispatcher) {

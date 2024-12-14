@@ -24,6 +24,7 @@ data object SceneviewUtils {
         modelLoader: ModelLoader,
         assetFileLocation: String,
         textureBitmap: Bitmap,
+        id: String = "",
         scaleToUnits: Float = 1.0f,
         positionX: Float = 0f,
         positionY: Float = 0f,
@@ -43,6 +44,7 @@ data object SceneviewUtils {
             scaleToUnits = scaleToUnits,
         ).apply {
             position = Position(x = positionX, y = positionY, z = positionZ)
+            name = id
         }
     }
 
