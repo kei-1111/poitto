@@ -10,4 +10,5 @@ data class SearchUiState(
     val selectedThrowingItem: ThrowingItem? = null,
     val isLoading: Boolean = false,
     val isShowBottomSheet: Boolean = false,
+    val isShowEmotionAnalyze: Boolean = false,
 ) : UiState

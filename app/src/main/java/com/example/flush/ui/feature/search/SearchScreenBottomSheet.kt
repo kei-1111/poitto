@@ -64,19 +64,21 @@ fun SearchScreenBottomSheet(
     ) {
         uiState.selectedThrowingItem?.let {
             SearchScreenBottomSheetContent(
-                throwingItem = it,
+                uiState = uiState,
+                onEvent = onEvent,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchScreenBottomSheetContent(
-    throwingItem: ThrowingItem,
+    uiState: SearchUiState,
+    onEvent: (SearchUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isEx by remember { mutableStateOf(false) }
+    val throwingItem = uiState.selectedThrowingItem!!
 
     Column(
         modifier = modifier
@@ -84,7 +86,7 @@ private fun SearchScreenBottomSheetContent(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             ) {
-                isEx = !isEx
+                onEvent(SearchUiEvent.OnBottomSheetClick)
             }
             .padding(
                 horizontal = Paddings.Large,
@@ -107,7 +109,7 @@ private fun SearchScreenBottomSheetContent(
                     .height(PreviewImageHeight),
             )
         }
-        if (isEx) {
+        if (uiState.isShowEmotionAnalyze) {
             Spacer(
                 modifier = Modifier.height(Paddings.Small),
             )

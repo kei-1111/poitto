@@ -61,6 +61,7 @@ fun SearchScreen(
                     viewModel.updateIsShowBottomSheet(true)
                 }
                 is SearchUiEvent.OnBottomSheetDismissRequest -> viewModel.updateIsShowBottomSheet(false)
+                is SearchUiEvent.OnBottomSheetClick -> viewModel.updateIsShowAnalyzeEmotion()
             }
         }.launchIn(this)
     }

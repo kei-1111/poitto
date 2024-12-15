@@ -31,6 +31,10 @@ class SearchViewModel @Inject constructor(
         updateUiState { it.copy(isShowBottomSheet = isShowBottomSheet) }
     }
 
+    fun updateIsShowAnalyzeEmotion() {
+        updateUiState { it.copy(isShowEmotionAnalyze = !it.isShowEmotionAnalyze) }
+    }
+
     private fun fetchThrowingItems() {
         viewModelScope.launch {
             val result = getThrowingItemUseCase()
