@@ -29,29 +29,25 @@ object RepositoryModule {
     fun provideAuthRepository(
         auth: FirebaseAuth,
         signInClient: SignInClient,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): AuthRepository = AuthRepositoryImpl(auth, signInClient, ioDispatcher)
+    ): AuthRepository = AuthRepositoryImpl(auth, signInClient)
 
     @Provides
     @Singleton
     fun provideUserRepository(
         firestore: FirebaseFirestore,
         storage: FirebaseStorage,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): UserRepository = UserRepositoryImpl(firestore, storage, ioDispatcher)
+    ): UserRepository = UserRepositoryImpl(firestore, storage)
 
     @Provides
     @Singleton
     fun provideEmotionAnalysisRepository(
         emotionAnalysisApi: EmotionAnalysisApi,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): EmotionAnalysisRepository = EmotionAnalysisRepositoryImpl(emotionAnalysisApi, ioDispatcher)
+    ): EmotionAnalysisRepository = EmotionAnalysisRepositoryImpl(emotionAnalysisApi)
 
     @Provides
     @Singleton
     fun provideThrowingItemRepository(
         firestore: FirebaseFirestore,
         storage: FirebaseStorage,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher,
-    ): ThrowingItemRepository = ThrowingItemRepositoryImpl(firestore, storage, ioDispatcher)
+    ): ThrowingItemRepository = ThrowingItemRepositoryImpl(firestore, storage)
 }
