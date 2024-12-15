@@ -89,10 +89,6 @@ fun PostScreen(
         }.launchIn(this)
     }
 
-    LaunchedEffect(uiState.phase) {
-        Log.d("uiState.phase", uiState.phase.toString())
-    }
-
     PostScreen(
         uiState = uiState,
         onEvent = viewModel::onEvent,

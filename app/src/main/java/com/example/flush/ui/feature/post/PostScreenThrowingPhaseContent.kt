@@ -150,15 +150,10 @@ private fun Throwing3DModel(
         return
     }
 
-    Log.d("CenterNode", "Create start")
     val centerNode = rememberNode(engine)
-    Log.d("CenterNode", "Create end")
 
-    Log.d("ModelLoader", "Create start")
     val modelLoader = rememberModelLoader(engine)
-    Log.d("ModelLoader", "Create end")
 
-    Log.d("ModelNode", "Create start")
     val modelNode = rememberNode {
         createModelNode(
             engine = engine,
@@ -168,18 +163,13 @@ private fun Throwing3DModel(
             scaleToUnits = 0.25f,
         )
     }
-    Log.d("ModelNode", "Create end")
 
-    Log.d("CameraNode", "Create start")
     val cameraNode = rememberCameraNode(engine) {
         position = Position(CameraNodePositionX, CameraNodePositionY)
         lookAt(modelNode)
     }
-    Log.d("CameraNode", "Create end")
 
-    Log.d("MainLightNode", "Create start")
     val mainLightNode = rememberMainLightNode(engine)
-    Log.d("MainLightNode", "Create end")
 
     LaunchedEffect(uiState.animationState) {
         if (uiState.animationState == PostUiAnimationState.Running) {
@@ -190,7 +180,6 @@ private fun Throwing3DModel(
     Box(
         modifier = modifier.fillMaxSize(),
     ) {
-        Log.d("Scene", "Create start")
         Scene(
             modifier = Modifier.fillMaxSize(),
             engine = engine,
@@ -228,7 +217,6 @@ private fun Throwing3DModel(
                 },
             ),
         )
-        Log.d("Scene", "Create end")
     }
 }
 

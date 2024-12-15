@@ -60,10 +60,8 @@ class PostViewModel @Inject constructor(
 
     fun startAnimation() {
         viewModelScope.launch {
-            Log.d("Animation", "Animation started")
             updateUiState { it.copy(animationState = PostUiAnimationState.Running) }
             delay(AnimationConfig.AnimationDuration.toLong())
-            Log.d("Animation", "Animation completed")
             updateUiState { it.copy(animationState = PostUiAnimationState.Completed) }
         }
     }
@@ -152,14 +150,12 @@ class PostViewModel @Inject constructor(
             throwingItem = throwingItem.copy(emotion = result)
             throwingItem = throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
             updateUiState { it.copy(isLoading = false) }
-            Log.d(TAG, "analyzeEmotion: $result")
         }
     }
 
     private fun gemini(text: String) {
         viewModelScope.launch {
             val result = emotionAnalysisUseCase.gemini(text)
-            Log.d(TAG, "gemini: $result")
             updateUiState { it.copy(responseMessage = result.trimEnd()) }
             updateUiState { it.copy(isLoading = false) }
         }

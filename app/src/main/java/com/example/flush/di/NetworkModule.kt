@@ -47,12 +47,10 @@ object NetworkModule {
             .eventListener(object : EventListener() {
                 override fun callStart(call: Call) {
                     super.callStart(call)
-                    Log.d("OkHttp", "Call started: ${call.request().url}")
                 }
 
                 override fun callEnd(call: Call) {
                     super.callEnd(call)
-                    Log.d("OkHttp", "Call ended: ${call.request().url}")
                 }
             })
             .dispatcher(
