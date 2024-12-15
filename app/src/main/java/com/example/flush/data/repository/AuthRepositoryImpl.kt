@@ -64,7 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
                 val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent).build()
                 intentSenderRequest
             } catch (e: Exception) {
-                Log.e("AuthRepository", "Error requesting Google One Tap", e)
+                Log.e(TAG, "Error requesting Google One Tap", e)
                 throw e
             }
         }
@@ -79,11 +79,11 @@ class AuthRepositoryImpl @Inject constructor(
                     val result = auth.signInWithCredential(firebaseCredential).await()
                     Result.success(result)
                 } else {
-                    Log.e("AuthRepository", "Google ID token is null")
+                    Log.e(TAG, "Google ID token is null")
                     Result.failure(Exception("Google ID token is null"))
                 }
             } catch (e: Exception) {
-                Log.e("AuthRepository", "Error signing in with Google One Tap", e)
+                Log.e(TAG, "Error signing in with Google One Tap", e)
                 Result.failure(Exception("Error signing in with Google One Tap"))
             }
         }
@@ -97,4 +97,8 @@ class AuthRepositoryImpl @Inject constructor(
                 Result.failure(e)
             }
         }
+
+    companion object {
+        private const val TAG = "AuthRepositoryImpl"
+    }
 }

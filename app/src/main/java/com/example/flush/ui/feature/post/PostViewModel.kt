@@ -152,14 +152,14 @@ class PostViewModel @Inject constructor(
             throwingItem = throwingItem.copy(emotion = result)
             throwingItem = throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
             updateUiState { it.copy(isLoading = false) }
-            Log.d("PostViewModel", "analyzeEmotion: $result")
+            Log.d(TAG, "analyzeEmotion: $result")
         }
     }
 
     private fun gemini(text: String) {
         viewModelScope.launch {
             val result = emotionAnalysisUseCase.gemini(text)
-            Log.d("PostViewModel", "gemini: $result")
+            Log.d(TAG, "gemini: $result")
             updateUiState { it.copy(responseMessage = result.trimEnd()) }
             updateUiState { it.copy(isLoading = false) }
         }

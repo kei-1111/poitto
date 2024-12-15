@@ -37,7 +37,7 @@ data object BitmapUtils {
             val inputStream = uri?.let { context.contentResolver.openInputStream(it) }
             BitmapFactory.decodeStream(inputStream).also { inputStream?.close() }
         } catch (e: Exception) {
-            Log.e("BitmapUtils.uriToBitmap", "Failed to load image from uri: $uri", e)
+            Log.e(TAG, "Failed to load image from uri: $uri", e)
             BitmapFactory.decodeResource(context.resources, R.drawable.ic_launcher_foreground)
         }
     }
