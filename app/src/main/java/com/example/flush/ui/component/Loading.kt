@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme

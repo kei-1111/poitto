@@ -1,22 +1,25 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import com.example.flush.ui.theme.dimensions.IconSize
 
 @Composable
-fun Image(
-    @DrawableRes resId: Int,
+fun Icon(
+    icon: ImageVector,
     modifier: Modifier = Modifier,
     size: Dp = IconSize.Small,
+    tint: Color = MaterialTheme.colorScheme.onSurface,
 ) {
-    androidx.compose.foundation.Image(
-        painter = painterResource(resId),
+    androidx.compose.material3.Icon(
+        imageVector = icon,
         contentDescription = null,
         modifier = modifier.size(size),
+        tint = tint,
     )
 }

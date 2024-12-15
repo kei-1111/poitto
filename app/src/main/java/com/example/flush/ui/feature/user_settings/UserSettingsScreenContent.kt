@@ -16,10 +16,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.flush.ui.compose.AsyncImage
-import com.example.flush.ui.compose.IconButton
-import com.example.flush.ui.compose.NameTextField
-import com.example.flush.ui.compose.OutlinedButton
+import com.example.flush.ui.component.AsyncImage
+import com.example.flush.ui.component.IconButton
+import com.example.flush.ui.component.NameTextField
+import com.example.flush.ui.component.OutlinedButton
 import com.example.flush.ui.feature.user_settings.UserSettingsScreenDimensions.NameTextFieldHeight
 import com.example.flush.ui.feature.user_settings.UserSettingsScreenDimensions.PreviewUserIconSize
 import com.example.flush.ui.feature.user_settings.UserSettingsScreenDimensions.SignOutButtonHeight

@@ -21,10 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import com.example.flush.ui.compose.AsyncImage
-import com.example.flush.ui.compose.Container
-import com.example.flush.ui.compose.Icon
-import com.example.flush.ui.compose.IconButton
+import com.example.flush.ui.component.AsyncImage
+import com.example.flush.ui.component.Container
+import com.example.flush.ui.component.Icon
+import com.example.flush.ui.component.IconButton
 import com.example.flush.ui.theme.dimensions.Alpha
 import com.example.flush.ui.theme.dimensions.Paddings
 import com.example.flush.ui.theme.dimensions.Weights

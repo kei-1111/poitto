@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,8 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.LockOpen
-import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -28,7 +26,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.flush.ui.theme.dimensions.Alpha
 import com.example.flush.ui.theme.dimensions.Paddings
 import com.example.flush.ui.theme.dimensions.Weights
-import java.util.concurrent.locks.Lock
 
 @Composable
 private fun TextField(

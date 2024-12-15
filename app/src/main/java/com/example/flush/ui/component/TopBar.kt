@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.ExperimentalMaterial3Api

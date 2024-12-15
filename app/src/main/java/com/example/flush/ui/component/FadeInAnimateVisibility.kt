@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

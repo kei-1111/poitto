@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

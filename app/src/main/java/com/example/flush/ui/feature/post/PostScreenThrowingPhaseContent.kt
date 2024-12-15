@@ -1,6 +1,5 @@
 package com.example.flush.ui.feature.post
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -24,9 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import com.example.flush.ui.compose.AnimatedText
-import com.example.flush.ui.compose.Container
-import com.example.flush.ui.compose.TitleSmallText
+import com.example.flush.ui.component.AnimatedText
+import com.example.flush.ui.component.Container
+import com.example.flush.ui.component.TitleSmallText
 import com.example.flush.ui.compositon_local.LocalEngine
 import com.example.flush.ui.compositon_local.LocalGraphicsView
 import com.example.flush.ui.compositon_local.LocaleEnvironment

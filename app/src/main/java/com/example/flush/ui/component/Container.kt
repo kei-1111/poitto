@@ -1,4 +1,4 @@
-package com.example.flush.ui.compose
+package com.example.flush.ui.component
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.material3.MaterialTheme

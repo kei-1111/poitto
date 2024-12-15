@@ -13,10 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import com.example.flush.R
-import com.example.flush.ui.compose.DisplayMediumText
-import com.example.flush.ui.compose.FilledButton
-import com.example.flush.ui.compose.Image
-import com.example.flush.ui.compose.OutlinedButton
+import com.example.flush.ui.component.DisplayMediumText
+import com.example.flush.ui.component.FilledButton
+import com.example.flush.ui.component.Image
+import com.example.flush.ui.component.OutlinedButton
 import com.example.flush.ui.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignInButtonHeight
 import com.example.flush.ui.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignUpButtonHeight
 import com.example.flush.ui.feature.auth_selection.AuthSelectionScreenDimensions.PoittoImageSize

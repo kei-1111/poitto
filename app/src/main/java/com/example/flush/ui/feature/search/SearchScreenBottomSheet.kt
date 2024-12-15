@@ -31,11 +31,11 @@ import com.example.flush.domain.model.EmotionType
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.model.forEach
 import com.example.flush.ktx.toFormattedTime
-import com.example.flush.ui.compose.AsyncImage
-import com.example.flush.ui.compose.BodyMediumText
-import com.example.flush.ui.compose.LabelMediumText
-import com.example.flush.ui.compose.TitleLargeText
-import com.example.flush.ui.compose.TitleSmallText
+import com.example.flush.ui.component.AsyncImage
+import com.example.flush.ui.component.BodyMediumText
+import com.example.flush.ui.component.LabelMediumText
+import com.example.flush.ui.component.TitleLargeText
+import com.example.flush.ui.component.TitleSmallText
 import com.example.flush.ui.feature.search.SearchScreenDimensions.ParameterThickness
 import com.example.flush.ui.feature.search.SearchScreenDimensions.PreviewImageHeight
 import com.example.flush.ui.theme.dimensions.Alpha
