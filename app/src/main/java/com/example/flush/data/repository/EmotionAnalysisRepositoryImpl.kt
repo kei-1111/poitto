@@ -12,22 +12,20 @@ import javax.inject.Inject
 
 class EmotionAnalysisRepositoryImpl @Inject constructor(
     private val emotionAnalysisApi: EmotionAnalysisApi,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : EmotionAnalysisRepository {
 
-    override suspend fun analyzeEmotion(text: String): Emotion =
-        withContext(ioDispatcher) {
-            val request = AnalyzeEmotionRequest(
-                text = text,
-            )
-            emotionAnalysisApi.analyzeEmotion(request).response
-        }
+    override suspend fun analyzeEmotion(text: String): Emotion {
+        val request = AnalyzeEmotionRequest(
+            text = text,
+        )
+        return emotionAnalysisApi.analyzeEmotion(request).response
+    }
 
-    override suspend fun gemini(text: String): String =
-        withContext(ioDispatcher) {
-            val request = GeminiRequest(
-                text = text,
-            )
-            emotionAnalysisApi.gemini(request).response
-        }
+
+    override suspend fun gemini(text: String): String {
+        val request = GeminiRequest(
+            text = text,
+        )
+        return emotionAnalysisApi.gemini(request).response
+    }
 }

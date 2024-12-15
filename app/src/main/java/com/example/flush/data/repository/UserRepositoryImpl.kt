@@ -19,20 +19,16 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : UserRepository {
     private val userCollection = firestore.collection("users")
 
-    override suspend fun createUser(user: User): Result<Unit> {
-        return withContext(ioDispatcher) {
-            try {
-                userCollection.document(user.uid).set(user).await()
-                Result.success(Unit)
-            } catch (e: Exception) {
-                Result.failure(e)
-            }
+    override suspend fun createUser(user: User): Result<Unit> =
+        try {
+            userCollection.document(user.uid).set(user).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-    }
 
     override suspend fun getUser(uid: String): Flow<User> = callbackFlow {
         val docRef = firestore.collection("users").document(uid)
@@ -50,9 +46,9 @@ class UserRepositoryImpl @Inject constructor(
             }
         }
         awaitClose { listener.remove() }
-    }.flowOn(ioDispatcher)
+    }
 
-    override suspend fun saveUser(user: User) = withContext(ioDispatcher) {
+    override suspend fun saveUser(user: User) =
         try {
             val currentUser = userCollection.document(user.uid).get().await()
                 .toObject(User::class.java)
@@ -67,8 +63,6 @@ class UserRepositoryImpl @Inject constructor(
                 uploadUserIconResult.getOrNull()?.let {
                     updateData["iconUrl"] = it
                 }
-            } else if (uploadUserIconResult.isFailure) {
-                return@withContext Result.failure(uploadUserIconResult.exceptionOrNull()!!)
             }
 
             userCollection.document(user.uid).update(updateData).await()
@@ -78,7 +72,6 @@ class UserRepositoryImpl @Inject constructor(
             Log.e(TAG, "saveUser: Error updating user data", e)
             Result.failure(e)
         }
-    }
 
     private suspend fun handleUploadUserIcon(
         currentUser: User?,
@@ -94,16 +87,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     private suspend fun uploadUserIcon(uid: String, imageUri: Uri): Result<String> =
-        withContext(ioDispatcher) {
+        try {
             val userIconRef = storage.reference.child(("user_icons/$uid/icon.jpg"))
-            try {
-                userIconRef.putFile(imageUri).await()
-                val result = userIconRef.downloadUrl.await().toString()
-                Result.success(result)
-            } catch (e: Exception) {
-                Log.e(TAG, "updateUserIcon: ", e)
-                Result.failure(e)
-            }
+            userIconRef.putFile(imageUri).await()
+            val result = userIconRef.downloadUrl.await().toString()
+            Result.success(result)
+        } catch (e: Exception) {
+            Log.e(TAG, "updateUserIcon: ", e)
+            Result.failure(e)
         }
 
     companion object {
