@@ -2,19 +2,15 @@ package com.example.flush.ui.feature.auth_selection
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
-import com.example.flush.ui.feature.sign_in.SignInUiEffect
-import com.example.flush.ui.utils.showToast
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -23,7 +19,7 @@ import kotlinx.coroutines.flow.onEach
 fun AuthSelectionScreen(
     navigateToSignUp: () -> Unit,
     navigateToSignIn: () -> Unit,
-    viewModel: AuthSelectionViewModel = hiltViewModel()
+    viewModel: AuthSelectionViewModel = hiltViewModel(),
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -50,14 +46,14 @@ private fun AuthSelectionScreen(
     onEvent: (AuthSelectionUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Scaffold (
+    Scaffold(
         modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
         AuthSelectionScreenContent(
             onEvent = onEvent,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
         )
     }
 }

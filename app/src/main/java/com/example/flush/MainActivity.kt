@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.example.flush.ui.compositon_local.SceneviewProvider
-import com.example.flush.ui.feature.auth_selection.AuthSelectionScreen
 import com.example.flush.ui.navigation.FlushNavHost
 import com.example.flush.ui.navigation.Screen
 import com.example.flush.ui.theme.FlushTheme

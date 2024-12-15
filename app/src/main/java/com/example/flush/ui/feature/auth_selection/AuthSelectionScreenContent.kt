@@ -33,11 +33,11 @@ fun AuthSelectionScreenContent(
             .padding(Paddings.Large),
     ) {
         AuthSelectionHeader(
-            modifier = Modifier.weight(Weights.Heavy)
+            modifier = Modifier.weight(Weights.Heavy),
         )
         AuthSelectionFields(
             onEvent = onEvent,
-            modifier = Modifier.weight(Weights.Medium)
+            modifier = Modifier.weight(Weights.Medium),
         )
     }
 }
@@ -49,21 +49,20 @@ private fun AuthSelectionHeader(
     Box(
         modifier = modifier
             .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 resId = R.drawable.poitto_icon,
                 size = PoittoImageSize,
-                modifier = Modifier.clip(CircleShape)
+                modifier = Modifier.clip(CircleShape),
             )
             DisplayMediumText(
                 text = "Poitto",
             )
         }
-
     }
 }
 
@@ -72,16 +71,16 @@ private fun AuthSelectionFields(
     onEvent: (AuthSelectionUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column (
+    Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(Paddings.ExtraLarge),
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.spacedBy(Paddings.ExtraLarge, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         NavigateToSignUpButton(
-            onNavigateToSignUpClick = { onEvent(AuthSelectionUiEvent.OnNavigateToSignUpClick) }
+            onNavigateToSignUpClick = { onEvent(AuthSelectionUiEvent.OnNavigateToSignUpClick) },
         )
         NavigateToSignInButton(
-            onNavigateToSignInClick = { onEvent(AuthSelectionUiEvent.OnNavigateToSignInClick) }
+            onNavigateToSignInClick = { onEvent(AuthSelectionUiEvent.OnNavigateToSignInClick) },
         )
     }
 }
@@ -111,6 +110,6 @@ private fun NavigateToSignInButton(
         modifier = modifier
             .fillMaxWidth()
             .height(NavigateToSignInButtonHeight),
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
     )
 }
