@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetThrowingItemUseCase @Inject constructor(
     private val throwingItemRepository: ThrowingItemRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) {
+) {
     suspend operator fun invoke() = withContext(ioDispatcher) {
         throwingItemRepository.getThrowingItems()
     }

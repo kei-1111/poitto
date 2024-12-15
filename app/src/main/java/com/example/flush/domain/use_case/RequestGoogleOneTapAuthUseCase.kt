@@ -10,7 +10,7 @@ import javax.inject.Inject
 class RequestGoogleOneTapAuthUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) {
+) {
     suspend operator fun invoke(): IntentSenderRequest = withContext(ioDispatcher) {
         authRepository.requestGoogleOneTapAuth()
     }

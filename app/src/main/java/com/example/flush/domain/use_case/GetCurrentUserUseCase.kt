@@ -13,7 +13,7 @@ class GetCurrentUserUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) {
+) {
     suspend operator fun invoke(): Flow<User> = withContext(ioDispatcher) {
         val uid = authRepository.getCurrentUser()?.uid ?: ""
         userRepository.getUser(uid)

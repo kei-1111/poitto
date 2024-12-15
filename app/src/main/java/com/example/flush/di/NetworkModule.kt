@@ -1,6 +1,5 @@
 package com.example.flush.di
 
-import android.util.Log
 import com.example.flush.data.api.EmotionAnalysisApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module

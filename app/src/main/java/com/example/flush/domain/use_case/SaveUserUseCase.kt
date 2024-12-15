@@ -10,7 +10,7 @@ import javax.inject.Inject
 class SaveUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    ) {
+) {
     suspend operator fun invoke(user: User) = withContext(ioDispatcher) {
         userRepository.saveUser(user)
     }

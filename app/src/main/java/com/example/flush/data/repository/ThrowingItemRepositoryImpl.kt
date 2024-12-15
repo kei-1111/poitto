@@ -3,15 +3,12 @@ package com.example.flush.data.repository
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
-import com.example.flush.di.IoDispatcher
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.repository.ThrowingItemRepository
 import com.example.flush.ktx.toByteArray
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ThrowingItemRepositoryImpl @Inject constructor(
