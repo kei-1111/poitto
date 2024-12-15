@@ -111,10 +111,11 @@ private fun SignUpScreen(
 @Composable
 private fun SignUpScreenTopBar(
     onNavigateToAuthSelection: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     TopBar(
         title = null,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         navigationIcon = {
             IconButton(
                 icon = Icons.Outlined.ArrowBackIosNew,
