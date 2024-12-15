@@ -27,6 +27,15 @@ Poitto (ポイット)
 
 ### スクリーンショット(任意)  
 
+| 認証選択画面 | サインイン画面 | サインアップ画面 |
+|-------|-------|-------|
+| <img src="https://github.com/user-attachments/assets/8eacfdbb-e0f4-49aa-bc1d-312e26befec2" width="200" /> | <img src="https://github.com/user-attachments/assets/d4ed2d46-f7ab-46ed-9a38-4432f90d26c5" width="200" /> | <img src="https://github.com/user-attachments/assets/7d0ef20f-8821-470d-b242-97728a12f08d" width="200" /> |
+
+| サーチ画面 | 投稿画面 | ユーザ設定画面 |
+|-------|-------|-------|
+| <img src="https://github.com/user-attachments/assets/862feeeb-bb76-4fa2-8181-6e43f9c5fddc" width="200" /> | <img src="https://github.com/user-attachments/assets/a6c06f74-3dac-414f-a43d-8ba9836717ed" width="200" /> | <img src="https://github.com/user-attachments/assets/62dadd6d-c5eb-46f7-bf58-e6f4633eae99" width="200" /> |
+
+
 ## 開発体制  
 
 ### 役割分担  
