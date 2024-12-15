@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import com.example.flush.ui.component.AnimatedText
 import com.example.flush.ui.component.Container
+import com.example.flush.ui.component.Loading
 import com.example.flush.ui.component.TitleSmallText
 import com.example.flush.ui.compositon_local.LocalEngine
 import com.example.flush.ui.compositon_local.LocalGraphicsView
@@ -140,12 +141,7 @@ private fun Throwing3DModel(
     )
 
     if (textureBitmap == null) {
-        Box(
-            modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            CircularProgressIndicator()
-        }
+        Loading()
         return
     }
 
