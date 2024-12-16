@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
@@ -16,18 +17,16 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.example.flush.R
-import kotlin.math.roundToInt
+import com.google.android.play.integrity.internal.y
 
 data object BitmapUtils {
 
     private const val FullWidthSpace = "　"
     private const val TextSize = 100f
     private const val MaxCharsPerLine = 20
-    private const val MaxLines = 25
     private const val CanvasPadding = 100f
-    private const val LineSpacing = 5f
-    private const val ImageHorizontalPadding = 100f
-    private const val ImageVerticalPadding = 200f
+    private const val LineSpacing = 10
+    private const val ImageVerticalPadding = 100
     private const val CornerRadius = 20f
 
     private const val TAG = "BitmapUtils"
@@ -66,67 +65,61 @@ data object BitmapUtils {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             textSize = TextSize
             color = textColor
-            textAlign = Paint.Align.CENTER
+            textAlign = Paint.Align.LEFT
             typeface = Typeface.DEFAULT_BOLD
         }
 
-        val chunkedText = text.chunked(MaxCharsPerLine).joinToString("\n")
-        val lines = chunkedText.split("\n")
+        val lines = processText(text, MaxCharsPerLine)
 
-        val truncatedAndPaddedLines = lines.take(MaxLines).map { line ->
-            val truncated =
-                if (line.length > MaxCharsPerLine) line.substring(0, MaxCharsPerLine) else line
-            truncated + FullWidthSpace.repeat(MaxCharsPerLine - truncated.length)
-        }.toMutableList()
+        val width = (paint.measureText(FullWidthSpace.repeat(MaxCharsPerLine)) + CanvasPadding).toInt()
 
-        while (truncatedAndPaddedLines.size < MaxLines) {
-            truncatedAndPaddedLines.add(FullWidthSpace.repeat(MaxCharsPerLine))
+        val lineHeightList = mutableListOf<Int>()
+        for (lineText in lines) {
+            val textBounds = Rect()
+            paint.getTextBounds(lineText, 0, lineText.length, textBounds)
+            val lineHeight = textBounds.height()
+            lineHeightList.add(lineHeight + LineSpacing)
         }
-
-        val testStringForWidth = FullWidthSpace.repeat(MaxCharsPerLine)
-        val width = (paint.measureText(testStringForWidth) + CanvasPadding).toInt()
-
-        val fontMetrics = paint.fontMetrics
-        val lineHeight = (-fontMetrics.ascent + fontMetrics.descent + LineSpacing)
-        val height = (lineHeight * MaxLines + CanvasPadding).toInt()
+        val textHeight = lineHeightList.sum()
+        val imageMaxWidth = width - CanvasPadding
+        val resizedBitmap = imageBitmap?.let {
+            resizeBitmap(
+                imageBitmap,
+                imageMaxWidth,
+            )
+        }
+        val height = (
+            textHeight +
+                ((resizedBitmap?.height?.plus(ImageVerticalPadding)) ?: 0) +
+                CanvasPadding
+            ).toInt()
 
         val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(image)
         canvas.drawColor(backgroundColor)
 
-        val baseLine = -paint.ascent() + CanvasPadding
+        for ((i, lineText) in lines.withIndex()) {
+            val x = CanvasPadding / 2f
+            val y = -paint.ascent() + CanvasPadding / 2f + lineHeightList.take(i).sum()
 
-        for ((i, lineText) in truncatedAndPaddedLines.withIndex()) {
-            val x = width / 2f
-            val y = baseLine + (lineHeight * i)
             canvas.drawText(lineText, x, y, paint)
         }
 
-        val textHeight = (lineHeight * lines.size)
-        val imageMaxHeight = height - textHeight - ImageVerticalPadding * 2
-        val imageMaxWidth = width - ImageHorizontalPadding * 2
-        imageBitmap ?: return image
-        val resizedBitmap = resizeBitmapToMaxSizeWithRoundedCorners(
-            imageBitmap,
-            imageMaxWidth.roundToInt(),
-            imageMaxHeight.roundToInt(),
-            CornerRadius,
-        )
+        resizedBitmap ?: return image
+
         canvas.drawBitmap(
             resizedBitmap,
-            imageMaxWidth / 2f - resizedBitmap.width / 2f + ImageHorizontalPadding,
-            textHeight + ImageVerticalPadding,
+            CanvasPadding / 2f,
+            textHeight + ImageVerticalPadding.toFloat(),
             null,
         )
 
         return image
     }
 
-    private fun resizeBitmapToMaxSizeWithRoundedCorners(
+    private fun resizeBitmap(
         originalBitmap: Bitmap,
-        maxWidth: Int,
-        maxHeight: Int,
-        cornerRadius: Float, // 角丸の半径
+        maxWidth: Float,
     ): Bitmap {
         val bitmapToUse = if (originalBitmap.config == Bitmap.Config.HARDWARE) {
             originalBitmap.copy(Bitmap.Config.ARGB_8888, false)
@@ -137,12 +130,10 @@ data object BitmapUtils {
         val originalWidth = bitmapToUse.width
         val originalHeight = bitmapToUse.height
 
-        val widthScale = maxWidth.toFloat() / originalWidth
-        val heightScale = maxHeight.toFloat() / originalHeight
-        val scaleFactor = minOf(widthScale, heightScale)
+        val widthScale = maxWidth / originalWidth
 
-        val scaledWidth = (originalWidth * scaleFactor).toInt()
-        val scaledHeight = (originalHeight * scaleFactor).toInt()
+        val scaledWidth = (originalWidth * widthScale).toInt()
+        val scaledHeight = (originalHeight * widthScale).toInt()
 
         val scaledBitmap = Bitmap.createScaledBitmap(bitmapToUse, scaledWidth, scaledHeight, true)
 
@@ -152,11 +143,22 @@ data object BitmapUtils {
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         val rectF = RectF(0f, 0f, scaledWidth.toFloat(), scaledHeight.toFloat())
 
-        canvas.drawRoundRect(rectF, cornerRadius, cornerRadius, paint)
+        canvas.drawRoundRect(rectF, CornerRadius, CornerRadius, paint)
 
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(scaledBitmap, 0f, 0f, paint)
 
         return outputBitmap
+    }
+
+    private fun processText(text: String, maxCharsPerLine: Int): List<String> {
+        val lines = text.split("\n")
+        val result = mutableListOf<String>()
+
+        for (line in lines) {
+            result.addAll(line.chunked(maxCharsPerLine))
+        }
+
+        return result
     }
 }
