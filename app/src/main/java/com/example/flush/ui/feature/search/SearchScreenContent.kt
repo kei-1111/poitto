@@ -52,10 +52,9 @@ fun SearchScreenContent(
                 val modelNode = createModelNode(
                     engine = engine,
                     modelLoader = modelLoader,
-                    assetFileLocation = "models/plate_alpha.glb",
+                    assetFileLocation = "models/plate.glb",
                     id = item.id,
                     textureBitmap = it,
-                    scaleToUnits = 0.25f,
                 )
 
                 modelNode.position = randomPosition()

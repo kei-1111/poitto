@@ -13,21 +13,20 @@ import com.google.android.filament.MaterialInstance
 import com.google.android.filament.Texture
 import io.github.sceneview.loaders.ModelLoader
 import io.github.sceneview.material.setTexture
-import io.github.sceneview.math.Position
+import io.github.sceneview.math.Scale
 import io.github.sceneview.node.ModelNode
 import java.nio.ByteBuffer
 
 data object SceneviewUtils {
+
+    private const val BaseScaleValue = 0.005f
+
     fun createModelNode(
         engine: Engine,
         modelLoader: ModelLoader,
         assetFileLocation: String,
         textureBitmap: Bitmap,
         id: String = "",
-        scaleToUnits: Float = 1.0f,
-        positionX: Float = 0f,
-        positionY: Float = 0f,
-        positionZ: Float = 0f,
     ): ModelNode {
         // カスタムテクスチャを生成
         val customTexture = createTexture(engine, textureBitmap)
@@ -40,11 +39,16 @@ data object SceneviewUtils {
         // ModelNode を作成して位置とスケールを設定
         return ModelNode(
             modelInstance = modelInstance,
-            scaleToUnits = scaleToUnits,
         ).apply {
-            position = Position(x = positionX, y = positionY, z = positionZ)
+            scale = calculateScaleFromBitmapSize(textureBitmap)
             name = id
         }
+    }
+
+    fun calculateScaleFromBitmapSize(
+        textureBitmap: Bitmap,
+    ): Scale {
+        return Scale(textureBitmap.height * BaseScaleValue, 1f, textureBitmap.width * BaseScaleValue)
     }
 
     @Composable

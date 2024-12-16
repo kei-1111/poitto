@@ -33,8 +33,12 @@ import com.example.flush.ui.feature.post.AnimationConfig.AnimationDuration
 import com.example.flush.ui.theme.dimensions.Alpha
 import com.example.flush.ui.theme.dimensions.Paddings
 import com.example.flush.ui.utils.SceneviewUtils.applyTextureToAlpha
+import com.example.flush.ui.utils.SceneviewUtils.calculateScaleFromBitmapSize
 import com.example.flush.ui.utils.SceneviewUtils.createModelNode
 import com.example.flush.ui.utils.SceneviewUtils.loadTextureBitmap
+import com.google.android.play.core.integrity.x
+import com.google.android.play.integrity.internal.y
+import com.google.android.play.integrity.internal.z
 import io.github.sceneview.Scene
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation
@@ -115,7 +119,7 @@ private fun ResponseMessageViewer(
 }
 
 private const val CameraNodePositionX = 0.1f
-private const val CameraNodePositionY = 4.5f
+private const val CameraNodePositionY = 8.0f
 
 @Suppress("LongMethod")
 @Composable
@@ -124,8 +128,6 @@ private fun Throwing3DModel(
     onEvent: (PostUiEvent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val throwAnimationState = remember { ThrowAnimationState() }
-
     val engine = LocalEngine.current
     val view = LocalGraphicsView.current
     val environment = LocaleEnvironment.current
@@ -152,14 +154,15 @@ private fun Throwing3DModel(
         createModelNode(
             engine = engine,
             modelLoader = modelLoader,
-            assetFileLocation = "models/plate_alpha.glb",
+            assetFileLocation = "models/plate.glb",
             textureBitmap = textureBitmap,
-            scaleToUnits = 0.25f,
         )
     }
+    val initialScale = calculateScaleFromBitmapSize(textureBitmap)
+    val throwAnimationState = remember { ThrowAnimationState(initialScale) }
 
     val cameraNode = rememberCameraNode(engine) {
-        position = Position(CameraNodePositionX, CameraNodePositionY)
+        position = Position(x = CameraNodePositionX, y = CameraNodePositionY)
         lookAt(modelNode)
     }
 
@@ -194,6 +197,11 @@ private fun Throwing3DModel(
                     y = throwAnimationState.rotateY.value,
                     z = throwAnimationState.rotateZ.value,
                 )
+                modelNode.scale = Scale(
+                    x = throwAnimationState.scaleX.value,
+                    y = throwAnimationState.scaleY.value,
+                    z = throwAnimationState.scaleZ.value,
+                )
                 modelNode.apply {
                     materialInstances.forEach {
                         it.forEach {
@@ -201,7 +209,6 @@ private fun Throwing3DModel(
                         }
                     }
                 }
-                modelNode.scale = Scale(throwAnimationState.scale.value)
             },
             onGestureListener = rememberOnGestureListener(
                 onSingleTapUp = { event, tapedNode ->
@@ -214,7 +221,9 @@ private fun Throwing3DModel(
     }
 }
 
-class ThrowAnimationState {
+class ThrowAnimationState(
+    private val initialScale: Scale,
+) {
     private var rotationXTargetValue: Float = generateRandomRotationTargetValue()
     private var rotationYTargetValue: Float = generateRandomRotationTargetValue()
     private var rotationZTargetValue: Float = generateRandomRotationTargetValue()
@@ -222,13 +231,15 @@ class ThrowAnimationState {
     private var positionXTargetValue: Float = generateRandomXTargetValue()
     private var positionZTargetValue: Float = generateRandomZTargetValue()
 
-    val positionX = Animatable(PositonXInitialValue)
+    val positionX = Animatable(initialScale.x / PositonXBaseValue)
     val positionY = Animatable(PositonYInitialValue)
     val positionZ = Animatable(PositonZInitialValue)
     val rotateX = Animatable(RotateXInitialValue)
     val rotateY = Animatable(RotateYInitialValue)
     val rotateZ = Animatable(RotateZInitialValue)
-    val scale = Animatable(ScaleInitialValue)
+    val scaleX = Animatable(initialScale.x)
+    val scaleY = Animatable(initialScale.y)
+    val scaleZ = Animatable(initialScale.z)
     val alpha = Animatable(AlphaInitialValue)
 
     private fun generateRandomRotationTargetValue(): Float {
@@ -243,6 +254,7 @@ class ThrowAnimationState {
         return Random.nextFloat() * MaxPositionZTargetValue * 2 + MinPositionZTargetValue
     }
 
+    @Suppress("LongMethod")
     suspend fun startAnimation() {
         coroutineScope {
             launch {
@@ -282,8 +294,20 @@ class ThrowAnimationState {
                 )
             }
             launch {
-                scale.animateTo(
-                    ScaleTargetValue,
+                scaleX.animateTo(
+                    initialScale.x / ScaleBaseValue,
+                    animationSpec = tween(durationMillis = AnimationDuration),
+                )
+            }
+            launch {
+                scaleY.animateTo(
+                    initialScale.y / ScaleBaseValue,
+                    animationSpec = tween(durationMillis = AnimationDuration),
+                )
+            }
+            launch {
+                scaleZ.animateTo(
+                    initialScale.z / ScaleBaseValue,
                     animationSpec = tween(durationMillis = AnimationDuration),
                 )
             }
@@ -297,13 +321,12 @@ class ThrowAnimationState {
     }
 
     companion object {
-        private const val PositonXInitialValue = 0f
+        private const val PositonXBaseValue = 21.555f
         private const val PositonYInitialValue = 0f
         private const val PositonZInitialValue = 0f
         private const val RotateXInitialValue = 0f
         private const val RotateYInitialValue = 0f
         private const val RotateZInitialValue = 0f
-        private const val ScaleInitialValue = 0.5f
         private const val AlphaInitialValue = 1f
 
         private const val MinPositionXTargetValue = -10f
@@ -313,7 +336,7 @@ class ThrowAnimationState {
         private const val MaxPositionZTargetValue = 5f
         private const val MinRotationTargetValue = 720f
         private const val MaxRotationTargetValue = 1080f
-        private const val ScaleTargetValue = 0.1f
+        private const val ScaleBaseValue = 30f
         private const val AlphaTargetValue = 0.0f
     }
 }
