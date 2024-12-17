@@ -5,6 +5,9 @@ import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import com.example.flush.BuildConfig
 import com.example.flush.domain.repository.AuthRepository
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthResult
@@ -32,56 +35,54 @@ class AuthRepositoryImpl @Inject constructor(
 
     override fun getCurrentUser() = auth.currentUser
 
-    override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser> =
+    override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser, String> =
         try {
-            val result = auth.createUserWithEmailAndPassword(email, password).await()
-            Result.success(result.user!!)
+            val result = auth.createUserWithEmailAndPassword(email, password).await().user!!
+            Ok(result)
         } catch (e: Exception) {
-            Result.failure(e)
+            Log.e(TAG, "Sign up failed", e)
+            Err(e.message ?: "Unknown error")
         }
 
-    override suspend fun signInWithEmail(email: String, password: String): Result<AuthResult> =
+    override suspend fun signInWithEmail(email: String, password: String): Result<AuthResult, String> =
         try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
-            Result.success(result)
+            Ok(result)
         } catch (e: Exception) {
-            Result.failure(e)
+            Log.e(TAG, "Sign in failed", e)
+            Err(e.message ?: "Unknown error")
         }
 
-    override suspend fun requestGoogleOneTapAuth(): IntentSenderRequest =
+    override suspend fun requestGoogleOneTapAuth(): Result<IntentSenderRequest, String> =
         try {
             val result = signInClient.beginSignIn(signInRequest).await()
             val pendingIntent = result.pendingIntent
             val intentSenderRequest = IntentSenderRequest.Builder(pendingIntent).build()
-            intentSenderRequest
+            Ok(intentSenderRequest)
         } catch (e: Exception) {
             Log.e(TAG, "Error requesting Google One Tap", e)
-            throw e
+            Err(e.message ?: "Unknown error")
         }
 
-    override suspend fun signInWithGoogle(resultData: Intent): Result<AuthResult> =
+    override suspend fun signInWithGoogle(resultData: Intent): Result<AuthResult, String> =
         try {
             val credential = signInClient.getSignInCredentialFromIntent(resultData)
             val idToken = credential.googleIdToken
-            if (idToken != null) {
-                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                val result = auth.signInWithCredential(firebaseCredential).await()
-                Result.success(result)
-            } else {
-                Log.e(TAG, "Google ID token is null")
-                Result.failure(Exception("Google ID token is null"))
-            }
+            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+            val result = auth.signInWithCredential(firebaseCredential).await()
+            Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "Error signing in with Google One Tap", e)
-            Result.failure(Exception("Error signing in with Google One Tap"))
+            Err(e.message ?: "Unknown error")
         }
 
-    override suspend fun signOut() =
+    override suspend fun signOut(): Result<Unit, String> =
         try {
-            auth.signOut()
-            Result.success(Unit)
+            val result = auth.signOut()
+            Ok(result)
         } catch (e: Exception) {
-            Result.failure(e)
+            Log.e(TAG, "Sign out failed", e)
+            Err(e.message ?: "Unknown error")
         }
 
     companion object {

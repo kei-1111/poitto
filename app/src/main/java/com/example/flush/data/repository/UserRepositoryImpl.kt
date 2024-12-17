@@ -4,6 +4,9 @@ import android.net.Uri
 import android.util.Log
 import com.example.flush.domain.model.User
 import com.example.flush.domain.repository.UserRepository
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
@@ -18,12 +21,13 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     private val userCollection = firestore.collection("users")
 
-    override suspend fun createUser(user: User): Result<Unit> =
+    override suspend fun createUser(user: User): Result<Unit, String> =
         try {
             userCollection.document(user.uid).set(user).await()
-            Result.success(Unit)
+            Ok(Unit)
         } catch (e: Exception) {
-            Result.failure(e)
+            Log.e(TAG, "Error creating user", e)
+            Err(e.message ?: "Unknown error")
         }
 
     override suspend fun getUser(uid: String): Flow<User> = callbackFlow {
@@ -55,42 +59,40 @@ class UserRepositoryImpl @Inject constructor(
                 "name" to user.name,
             )
 
-            if (uploadUserIconResult.isSuccess) {
-                uploadUserIconResult.getOrNull()?.let {
-                    updateData["iconUrl"] = it
-                }
+            if (uploadUserIconResult.isOk) {
+                updateData["iconUrl"] = uploadUserIconResult.value
             }
 
             userCollection.document(user.uid).update(updateData).await()
 
-            Result.success(Unit)
+            Ok(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "saveUser: Error updating user data", e)
-            Result.failure(e)
+            Err(e.message ?: "Unknown error")
         }
 
     private suspend fun handleUploadUserIcon(
         currentUser: User?,
         user: User,
-    ): Result<String> {
+    ): Result<String, String> {
         return if (currentUser?.iconUrl != user.iconUrl) {
             user.iconUrl?.let { uploadUserIcon(user.uid, Uri.parse(it)) }
-                ?: Result.failure(IllegalArgumentException("User iconUrl is null"))
+                ?: Err("User iconUrl is null")
         } else {
-            user.iconUrl?.let { Result.success(it) }
-                ?: Result.failure(IllegalArgumentException("User iconUrl is null"))
+            user.iconUrl?.let { Ok(it) }
+                ?: Err("User iconUrl is null")
         }
     }
 
-    private suspend fun uploadUserIcon(uid: String, imageUri: Uri): Result<String> =
+    private suspend fun uploadUserIcon(uid: String, imageUri: Uri): Result<String, String> =
         try {
             val userIconRef = storage.reference.child(("user_icons/$uid/icon.jpg"))
             userIconRef.putFile(imageUri).await()
             val result = userIconRef.downloadUrl.await().toString()
-            Result.success(result)
+            Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "updateUserIcon: ", e)
-            Result.failure(e)
+            Err(e.message ?: "Unknown error")
         }
 
     companion object {

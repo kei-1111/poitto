@@ -11,6 +11,7 @@ class UploadThrowingItemTextureBitmapUseCase @Inject constructor(
     private val throwingItemRepository: ThrowingItemRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
-    suspend operator fun invoke(throwingItemId: String, textureBitmap: Bitmap): Result<String> =
-        withContext(ioDispatcher) { throwingItemRepository.uploadTextureBitmap(throwingItemId, textureBitmap) }
+    suspend operator fun invoke(throwingItemId: String, textureBitmap: Bitmap) = withContext(ioDispatcher) {
+        throwingItemRepository.uploadTextureBitmap(throwingItemId, textureBitmap)
+    }
 }

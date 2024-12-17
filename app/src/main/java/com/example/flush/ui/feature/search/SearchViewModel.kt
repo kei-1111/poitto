@@ -1,11 +1,10 @@
 package com.example.flush.ui.feature.search
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.use_case.GetCurrentUserUseCase
 import com.example.flush.domain.use_case.GetThrowingItemUseCase
 import com.example.flush.ui.base.BaseViewModel
+import com.github.michaelbull.result.mapBoth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,11 +37,10 @@ class SearchViewModel @Inject constructor(
     private fun fetchThrowingItems() {
         viewModelScope.launch {
             val result = getThrowingItemUseCase()
-            if (result.isSuccess) {
-                updateUiState { it.copy(throwingItems = result.getOrNull() ?: emptyList()) }
-            } else {
-                sendEffect(SearchUiEffect.ShowToast("Failed to fetch throwing items"))
-            }
+            result.mapBoth(
+                { updateUiState { it.copy(throwingItems = result.value) } },
+                { sendEffect(SearchUiEffect.ShowToast(result.error)) },
+            )
         }
     }
 

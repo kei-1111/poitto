@@ -2,7 +2,6 @@ package com.example.flush.ui.feature.post
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.model.User
@@ -16,6 +15,7 @@ import com.example.flush.domain.use_case.UploadThrowingItemTextureBitmapUseCase
 import com.example.flush.ui.base.BaseViewModel
 import com.example.flush.ui.utils.BitmapUtils
 import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
+import com.github.michaelbull.result.mapBoth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -119,13 +119,12 @@ class PostViewModel @Inject constructor(
     private fun uploadImage() {
         viewModelScope.launch {
             val imageUri = _uiState.value.imageUri
-            imageUri?.let {
-                val result = uploadThrowingItemImageUseCase(throwingItem.id, it)
-                if (result.isSuccess) {
-                    throwingItem = throwingItem.copy(imageUrl = result.getOrNull())
-                } else {
-                    Log.e(TAG, "uploadImage: Failed to upload image")
-                }
+            imageUri?.let { uri ->
+                val result = uploadThrowingItemImageUseCase(throwingItem.id, uri)
+                result.mapBoth(
+                    { throwingItem = throwingItem.copy(imageUrl = result.value) },
+                    { sendEffect(PostUiEffect.ShowToast(result.error)) },
+                )
             }
         }
     }
@@ -135,11 +134,10 @@ class PostViewModel @Inject constructor(
             val textureBitmap = _uiState.value.textureBitmap
             textureBitmap?.let {
                 val result = uploadThrowingItemTextureBitmapUseCase(throwingItem.id, it)
-                if (result.isSuccess && result.getOrNull() != null) {
-                    throwingItem = throwingItem.copy(textureUrl = result.getOrNull()!!)
-                } else {
-                    Log.e(TAG, "uploadTextureBitmap: Failed to upload texture bitmap")
-                }
+                result.mapBoth(
+                    { throwingItem = throwingItem.copy(textureUrl = result.value) },
+                    { sendEffect(PostUiEffect.ShowToast(result.error)) },
+                )
             }
         }
     }
@@ -162,8 +160,6 @@ class PostViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "PostViewModel"
-
         private const val Threshold = 0.4f
     }
 }

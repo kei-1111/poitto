@@ -1,9 +1,14 @@
 package com.example.flush.domain.use_case
 
+import android.util.Log
 import com.example.flush.di.IoDispatcher
 import com.example.flush.domain.model.User
 import com.example.flush.domain.repository.AuthRepository
 import com.example.flush.domain.repository.UserRepository
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.andThen
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -13,13 +18,11 @@ class SignUpWithEmailUseCase @Inject constructor(
     private val userRepository: UserRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
-    suspend operator fun invoke(email: String, password: String): Result<Unit> {
+    suspend operator fun invoke(email: String, password: String): Result<Unit, String> {
         return withContext(ioDispatcher) {
             try {
-                val authResult = authRepository.signUpWithEmail(email, password)
-                if (authResult.isSuccess) {
-                    val firebaseUser = authResult.getOrNull()
-                    if (firebaseUser != null) {
+                authRepository.signUpWithEmail(email, password)
+                    .andThen { firebaseUser ->
                         val user = User(
                             uid = firebaseUser.uid,
                             email = firebaseUser.email ?: "",
@@ -27,21 +30,17 @@ class SignUpWithEmailUseCase @Inject constructor(
                             iconUrl = "https://firebasestorage.googleapis.com/v0/b/flush-de17e.firebasestorage.app/o/" +
                                 "default_icon.png?alt=media&token=c77ba166-ca8a-4504-b70e-c4749c8f9cfc",
                         )
-                        val createUserResult = userRepository.createUser(user)
-                        if (createUserResult.isSuccess) {
-                            Result.success(Unit)
-                        } else {
-                            Result.failure(createUserResult.exceptionOrNull() ?: Exception("Register failed"))
-                        }
-                    } else {
-                        Result.failure(Exception("User is null"))
+                        userRepository.createUser(user)
                     }
-                } else {
-                    Result.failure(authResult.exceptionOrNull() ?: Exception("Register failed"))
-                }
+                Ok(Unit)
             } catch (e: Exception) {
-                Result.failure(e)
+                Log.e(TAG, "Sign up failed", e)
+                Err(e.message ?: "Unknown error")
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "SignUpWithEmailUseCase"
     }
 }

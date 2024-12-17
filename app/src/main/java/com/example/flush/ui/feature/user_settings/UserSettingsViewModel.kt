@@ -7,6 +7,7 @@ import com.example.flush.domain.use_case.GetCurrentUserUseCase
 import com.example.flush.domain.use_case.SaveUserUseCase
 import com.example.flush.domain.use_case.SignOutUseCase
 import com.example.flush.ui.base.BaseViewModel
+import com.github.michaelbull.result.mapBoth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -57,22 +58,20 @@ class UserSettingsViewModel @Inject constructor(
                 )
             }
             updateUiState { it.copy(isLoading = false) }
-            if (result?.isSuccess == true) {
-                sendEffect(UserSettingsUiEffect.NavigateToSearch)
-            } else {
-                sendEffect(UserSettingsUiEffect.ShowToast("Failed to update user"))
-            }
+            result?.mapBoth(
+                { sendEffect(UserSettingsUiEffect.NavigateToSearch) },
+                { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
+            )
         }
     }
 
     fun signOut() {
         viewModelScope.launch {
             val result = signOutUseCase()
-            if (result.isSuccess) {
-                sendEffect(UserSettingsUiEffect.NavigateToAuthSelection)
-            } else {
-                sendEffect(UserSettingsUiEffect.ShowToast("Failed to sign out"))
-            }
+            result.mapBoth(
+                { sendEffect(UserSettingsUiEffect.NavigateToAuthSelection) },
+                { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
+            )
         }
     }
 }

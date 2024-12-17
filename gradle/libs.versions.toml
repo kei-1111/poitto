@@ -66,6 +66,9 @@ secretsGradlePlugin = "2.0.0"
 # Google Auth
 playServicesAuth = "21.3.0"
 
+# kotlin-result
+kotlinResult = "2.0.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -134,6 +137,9 @@ kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "ko
 
 # Google Auth
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+
+# kotlin-result
+kotlin-result = { group = "com.michael-bull.kotlin-result", name = "kotlin-result", version.ref = "kotlinResult" }
 
 
 [plugins]
