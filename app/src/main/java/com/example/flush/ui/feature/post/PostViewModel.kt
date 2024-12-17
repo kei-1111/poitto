@@ -2,7 +2,6 @@ package com.example.flush.ui.feature.post
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.model.User
@@ -17,8 +16,6 @@ import com.example.flush.ui.base.BaseViewModel
 import com.example.flush.ui.utils.BitmapUtils
 import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
 import com.github.michaelbull.result.mapBoth
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -163,8 +160,6 @@ class PostViewModel @Inject constructor(
     }
 
     companion object {
-        private const val TAG = "PostViewModel"
-
         private const val Threshold = 0.4f
     }
 }
