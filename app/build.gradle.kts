@@ -129,6 +129,9 @@ dependencies {
 
 //    Google Auth
     implementation(libs.play.services.auth)
+
+//    kotlin-result
+    implementation(libs.kotlin.result)
 }
 
 detekt {
