@@ -12,6 +12,10 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
@@ -37,11 +41,17 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun signUpWithEmail(email: String, password: String): Result<FirebaseUser, String> =
         try {
-            val result = auth.createUserWithEmailAndPassword(email, password).await().user!!
-            Ok(result)
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            val firebaseUser = result.user
+            if (firebaseUser == null) {
+                Err("ユーザーが作成されませんでした")
+            } else {
+                Ok(firebaseUser)
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Sign up failed", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun signInWithEmail(email: String, password: String): Result<AuthResult, String> =
@@ -50,7 +60,8 @@ class AuthRepositoryImpl @Inject constructor(
             Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "Sign in failed", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun requestGoogleOneTapAuth(): Result<IntentSenderRequest, String> =
@@ -61,7 +72,8 @@ class AuthRepositoryImpl @Inject constructor(
             Ok(intentSenderRequest)
         } catch (e: Exception) {
             Log.e(TAG, "Error requesting Google One Tap", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun signInWithGoogle(resultData: Intent): Result<AuthResult, String> =
@@ -73,7 +85,8 @@ class AuthRepositoryImpl @Inject constructor(
             Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "Error signing in with Google One Tap", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun signOut(): Result<Unit, String> =
@@ -82,10 +95,24 @@ class AuthRepositoryImpl @Inject constructor(
             Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "Sign out failed", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     companion object {
         private const val TAG = "AuthRepositoryImpl"
+
+        private fun getErrorMessage(e: Exception): String {
+            return when (e) {
+                is FirebaseAuthInvalidUserException -> "ユーザーが存在しません"
+                is FirebaseAuthUserCollisionException -> "このメールアドレスは既に使用されています"
+
+                is FirebaseAuthInvalidCredentialsException -> "メールアドレスまたはパスワードが無効です"
+
+                is FirebaseAuthException -> "認証エラーが発生しました"
+
+                else -> "予期せぬエラーが発生しました"
+            }
+        }
     }
 }

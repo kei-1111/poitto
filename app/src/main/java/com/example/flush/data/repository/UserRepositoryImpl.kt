@@ -8,6 +8,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +28,8 @@ class UserRepositoryImpl @Inject constructor(
             Ok(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "Error creating user", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun getUser(uid: String): Flow<User> = callbackFlow {
@@ -68,7 +70,8 @@ class UserRepositoryImpl @Inject constructor(
             Ok(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "saveUser: Error updating user data", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     private suspend fun handleUploadUserIcon(
@@ -77,10 +80,10 @@ class UserRepositoryImpl @Inject constructor(
     ): Result<String, String> {
         return if (currentUser?.iconUrl != user.iconUrl) {
             user.iconUrl?.let { uploadUserIcon(user.uid, Uri.parse(it)) }
-                ?: Err("User iconUrl is null")
+                ?: Err("ユーザアイコンのアップロードに失敗しました")
         } else {
             user.iconUrl?.let { Ok(it) }
-                ?: Err("User iconUrl is null")
+                ?: Err("ユーザアイコンのアップロードに失敗しました")
         }
     }
 
@@ -92,10 +95,18 @@ class UserRepositoryImpl @Inject constructor(
             Ok(result)
         } catch (e: Exception) {
             Log.e(TAG, "updateUserIcon: ", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     companion object {
         private const val TAG = "UserRepositoryImpl"
+
+        private fun getErrorMessage(e: Exception): String {
+            return when (e) {
+                is FirebaseFirestoreException -> "データベースエラーが発生しました"
+                else -> "予期せぬエラーが発生しました"
+            }
+        }
     }
 }

@@ -6,9 +6,9 @@ import com.example.flush.domain.model.User
 import com.example.flush.domain.repository.AuthRepository
 import com.example.flush.domain.repository.UserRepository
 import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
+import com.github.michaelbull.result.map
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class SignUpWithEmailUseCase @Inject constructor(
                         )
                         userRepository.createUser(user)
                     }
-                Ok(Unit)
+                    .map { Unit }
             } catch (e: Exception) {
                 Log.e(TAG, "Sign up failed", e)
                 Err(e.message ?: "Unknown error")
