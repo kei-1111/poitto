@@ -2,6 +2,7 @@ package com.example.flush.ui.feature.post
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.model.ThrowingItem
 import com.example.flush.domain.model.User
@@ -15,7 +16,7 @@ import com.example.flush.domain.use_case.UploadThrowingItemTextureBitmapUseCase
 import com.example.flush.ui.base.BaseViewModel
 import com.example.flush.ui.utils.BitmapUtils
 import com.example.flush.ui.utils.BitmapUtils.uriToBitmap
-import com.github.michaelbull.result.mapBoth
+import com.github.michaelbull.result.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -106,38 +107,50 @@ class PostViewModel @Inject constructor(
     fun saveThrowingItem() {
         viewModelScope.launch {
             if (throwingItem.isSavable()) {
-                updateUiState { it.copy(isLoading = false) }
-                createThrowingItemUseCase(throwingItem)
-                sendEffect(PostUiEffect.NavigateToSearch)
+                try {
+                    updateUiState { it.copy(isLoading = false) }
+                    createThrowingItemUseCase(throwingItem)
+                    sendEffect(PostUiEffect.NavigateToSearch)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to save throwing item", e)
+                }
             } else {
                 updateUiState { it.copy(isLoading = true) }
-                sendEffect(PostUiEffect.ShowToast("Please fill in all fields"))
+                sendEffect(PostUiEffect.ShowToast("アップロードまで少々お待ちください"))
             }
         }
     }
 
     private fun uploadImage() {
         viewModelScope.launch {
-            val imageUri = _uiState.value.imageUri
-            imageUri?.let { uri ->
-                val result = uploadThrowingItemImageUseCase(throwingItem.id, uri)
-                result.mapBoth(
-                    { throwingItem = throwingItem.copy(imageUrl = result.value) },
-                    { sendEffect(PostUiEffect.ShowToast(result.error)) },
-                )
+            try {
+                val imageUri = _uiState.value.imageUri
+                imageUri?.let { uri ->
+                    val result = uploadThrowingItemImageUseCase(throwingItem.id, uri)
+                    result.fold(
+                        { throwingItem = throwingItem.copy(imageUrl = result.value) },
+                        { sendEffect(PostUiEffect.ShowToast(result.error)) },
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to upload image", e)
             }
         }
     }
 
     private fun uploadTextureBitmap() {
         viewModelScope.launch {
-            val textureBitmap = _uiState.value.textureBitmap
-            textureBitmap?.let {
-                val result = uploadThrowingItemTextureBitmapUseCase(throwingItem.id, it)
-                result.mapBoth(
-                    { throwingItem = throwingItem.copy(textureUrl = result.value) },
-                    { sendEffect(PostUiEffect.ShowToast(result.error)) },
-                )
+            try {
+                val textureBitmap = _uiState.value.textureBitmap
+                textureBitmap?.let {
+                    val result = uploadThrowingItemTextureBitmapUseCase(throwingItem.id, it)
+                    result.fold(
+                        { throwingItem = throwingItem.copy(textureUrl = result.value) },
+                        { sendEffect(PostUiEffect.ShowToast(result.error)) },
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to upload texture bitmap", e)
             }
         }
     }
@@ -146,7 +159,8 @@ class PostViewModel @Inject constructor(
         viewModelScope.launch {
             val result = emotionAnalysisUseCase.analyzeEmotion(text)
             throwingItem = throwingItem.copy(emotion = result)
-            throwingItem = throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
+            throwingItem =
+                throwingItem.copy(labeledEmotion = result.getExceededEmotionTypes(Threshold))
             updateUiState { it.copy(isLoading = false) }
         }
     }
@@ -160,6 +174,8 @@ class PostViewModel @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "PostViewModel"
+
         private const val Threshold = 0.4f
     }
 }

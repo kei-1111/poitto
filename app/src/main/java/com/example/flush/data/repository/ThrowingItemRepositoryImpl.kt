@@ -10,6 +10,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -29,7 +30,8 @@ class ThrowingItemRepositoryImpl @Inject constructor(
             Ok(throwingItems)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to get throwing items", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun createThrowingItem(throwingItem: ThrowingItem): Result<Unit, String> =
@@ -38,7 +40,8 @@ class ThrowingItemRepositoryImpl @Inject constructor(
             Ok(Unit)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to create throwing item", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun uploadImage(throwingItemId: String, imageUrl: Uri): Result<String, String> =
@@ -49,7 +52,8 @@ class ThrowingItemRepositoryImpl @Inject constructor(
             Ok(result.toString())
         } catch (e: Exception) {
             Log.e(TAG, "Failed to upload image", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     override suspend fun uploadTextureBitmap(throwingItemId: String, textureBitmap: Bitmap): Result<String, String> =
@@ -61,10 +65,18 @@ class ThrowingItemRepositoryImpl @Inject constructor(
             Ok(result.toString())
         } catch (e: Exception) {
             Log.e(TAG, "Failed to upload texture bitmap", e)
-            Err(e.message ?: "Unknown error")
+            val errorMessage = getErrorMessage(e)
+            Err(errorMessage)
         }
 
     companion object {
         private const val TAG = "ThrowingItemRepositoryImpl"
+
+        private fun getErrorMessage(e: Exception): String {
+            return when (e) {
+                is FirebaseFirestoreException -> "データベースエラーが発生しました"
+                else -> "予期せぬエラーが発生しました"
+            }
+        }
     }
 }

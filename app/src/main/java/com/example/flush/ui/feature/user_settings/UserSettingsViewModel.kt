@@ -1,13 +1,14 @@
 package com.example.flush.ui.feature.user_settings
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.flush.domain.model.User
 import com.example.flush.domain.use_case.GetCurrentUserUseCase
 import com.example.flush.domain.use_case.SaveUserUseCase
 import com.example.flush.domain.use_case.SignOutUseCase
 import com.example.flush.ui.base.BaseViewModel
-import com.github.michaelbull.result.mapBoth
+import com.github.michaelbull.result.fold
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,32 +47,44 @@ class UserSettingsViewModel @Inject constructor(
 
     fun saveUser() {
         viewModelScope.launch {
-            updateUiState { it.copy(isLoading = true) }
-            val name = uiState.value.name
-            val imageUri = uiState.value.imageUri
-            val result = initialUser?.let { user ->
-                saveUserUseCase(
-                    user.copy(
-                        name = name,
-                        iconUrl = imageUri,
-                    ),
+            try {
+                updateUiState { it.copy(isLoading = true) }
+                val name = uiState.value.name
+                val imageUri = uiState.value.imageUri
+                val result = initialUser?.let { user ->
+                    saveUserUseCase(
+                        user.copy(
+                            name = name,
+                            iconUrl = imageUri,
+                        ),
+                    )
+                }
+                updateUiState { it.copy(isLoading = false) }
+                result?.fold(
+                    { sendEffect(UserSettingsUiEffect.NavigateToSearch) },
+                    { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
                 )
+            } catch (e: Exception) {
+                Log.e(TAG, "Save user failed", e)
             }
-            updateUiState { it.copy(isLoading = false) }
-            result?.mapBoth(
-                { sendEffect(UserSettingsUiEffect.NavigateToSearch) },
-                { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
-            )
         }
     }
 
     fun signOut() {
         viewModelScope.launch {
-            val result = signOutUseCase()
-            result.mapBoth(
-                { sendEffect(UserSettingsUiEffect.NavigateToAuthSelection) },
-                { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
-            )
+            try {
+                val result = signOutUseCase()
+                result.fold(
+                    { sendEffect(UserSettingsUiEffect.NavigateToAuthSelection) },
+                    { sendEffect(UserSettingsUiEffect.ShowToast(it)) },
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Sign out failed", e)
+            }
         }
+    }
+
+    companion object {
+        private const val TAG = "UserSettingsViewModel"
     }
 }
