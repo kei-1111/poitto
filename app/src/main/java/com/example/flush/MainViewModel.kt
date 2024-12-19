@@ -2,8 +2,8 @@ package com.example.flush
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flush.domain.use_case.GetCurrentFirebaseUserUseCase
-import com.example.flush.ui.navigation.Screen
+import com.example.domain.GetCurrentFirebaseUserUseCase
+import com.example.flush.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -17,9 +17,6 @@ plugins {
 
 //    Google Services
     alias(libs.plugins.google.services)
-
-//    Secrets Gradle Plugin
-    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -78,20 +75,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-//    Immutable
-    implementation(libs.kotlinx.collections.immutable)
+    implementation(project(":core:designsystem"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:ui"))
 
-//    Material Icon Extended
-    implementation(libs.androidx.material.icons.extended)
-
-//    Lottie
-    implementation(libs.lottie.compose)
-
-//    Coil
-    implementation(libs.coil.compose)
-
-//    Sceneview
-    implementation(libs.sceneview)
+    implementation(project(":feature:auth_selection"))
+    implementation(project(":feature:post"))
+    implementation(project(":feature:search"))
+    implementation(project(":feature:sign_in"))
+    implementation(project(":feature:sign_up"))
+    implementation(project(":feature:user_settings"))
 
 //    Splash Screen
     implementation(libs.androidx.core.splashscreen)
@@ -105,13 +99,6 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
 
-//    Retrofit
-    implementation(libs.retrofit2)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
-
-//    OkHttp
-    implementation(libs.okhttp)
-
 //    Serialization
     implementation(libs.kotlinx.serialization.json)
 
@@ -121,24 +108,20 @@ dependencies {
 //    Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
-
-//    Coroutines
-    implementation(libs.kotlinx.coroutines.play.services)
-
-//    Google Auth
-    implementation(libs.play.services.auth)
-
-//    kotlin-result
-    implementation(libs.kotlin.result)
 }
 
-detekt {
-    config.setFrom("${rootProject.projectDir}/config/detekt/detekt.yml")
-    buildUponDefaultConfig = true
+allprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
 
-    source.setFrom(files("src/main/java"))
+    detekt {
+        config.setFrom("$rootDir/config/detekt/detekt.yml")
+        buildUponDefaultConfig = true
 
-    autoCorrect = true
+        source.setFrom(files("src/main/java"))
+        autoCorrect = true
+    }
+
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
+        jvmTarget = "17"
+    }
 }
