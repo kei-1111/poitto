@@ -1,5 +1,5 @@
 package com.example.auth_selection
 
-import com.example.base.UiEffect
+import com.example.core.base.UiEffect
 
 sealed interface AuthSelectionUiEffect : UiEffect

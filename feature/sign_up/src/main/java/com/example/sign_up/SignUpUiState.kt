@@ -1,6 +1,6 @@
 package com.example.sign_up
 
-import com.example.base.UiState
+import com.example.core.base.UiState
 
 data class SignUpUiState(
     val email: String = "",

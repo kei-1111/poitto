@@ -2,7 +2,7 @@ package com.example.search
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.base.BaseViewModel
+import com.example.core.base.BaseViewModel
 import com.example.domain.GetCurrentUserUseCase
 import com.example.domain.GetThrowingItemUseCase
 import com.github.michaelbull.result.fold

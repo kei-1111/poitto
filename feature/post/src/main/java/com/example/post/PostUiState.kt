@@ -2,7 +2,7 @@ package com.example.post
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.example.base.UiState
+import com.example.core.base.UiState
 
 data class PostUiState(
     val isLoading: Boolean = false,

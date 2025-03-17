@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.viewModelScope
-import com.example.base.BaseViewModel
+import com.example.core.base.BaseViewModel
 import com.example.domain.RequestGoogleOneTapAuthUseCase
 import com.example.domain.SignInWithGoogleUseCase
 import com.example.domain.SignUpWithEmailUseCase

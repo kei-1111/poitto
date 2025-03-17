@@ -1,6 +1,6 @@
 package com.example.post
 
-import com.example.base.UiEvent
+import com.example.core.base.UiEvent
 
 sealed interface PostUiEvent : UiEvent {
     data object OnNavigateToSearchClick : PostUiEvent

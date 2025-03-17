@@ -1,6 +1,6 @@
 package com.example.user_settings
 
-import com.example.base.UiEffect
+import com.example.core.base.UiEffect
 
 sealed interface UserSettingsUiEffect : UiEffect {
     data class ShowToast(val message: String) : UserSettingsUiEffect

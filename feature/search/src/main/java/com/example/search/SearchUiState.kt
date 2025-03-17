@@ -1,6 +1,6 @@
 package com.example.search
 
-import com.example.base.UiState
+import com.example.core.base.UiState
 import com.example.model.ThrowingItem
 import com.example.model.User
 

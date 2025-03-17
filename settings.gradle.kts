@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Flush"
+rootProject.name = "poitto"
 include(":app")
 
 include(":data:api")

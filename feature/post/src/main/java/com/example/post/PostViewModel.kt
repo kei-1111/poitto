@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.base.BaseViewModel
+import com.example.core.base.BaseViewModel
 import com.example.domain.CreateThrowingItemUseCase
 import com.example.domain.EmotionAnalysisUseCase
 import com.example.domain.GetCurrentUserUseCase

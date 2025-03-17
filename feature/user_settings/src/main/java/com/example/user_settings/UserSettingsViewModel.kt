@@ -3,7 +3,7 @@ package com.example.user_settings
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.base.BaseViewModel
+import com.example.core.base.BaseViewModel
 import com.example.domain.GetCurrentUserUseCase
 import com.example.domain.SaveUserUseCase
 import com.example.domain.SignOutUseCase

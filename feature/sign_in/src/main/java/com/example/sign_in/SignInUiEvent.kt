@@ -1,6 +1,6 @@
 package com.example.sign_in
 
-import com.example.base.UiEvent
+import com.example.core.base.UiEvent
 
 sealed interface SignInUiEvent : UiEvent {
     data object OnNavigateToAuthSelectionClick : SignInUiEvent

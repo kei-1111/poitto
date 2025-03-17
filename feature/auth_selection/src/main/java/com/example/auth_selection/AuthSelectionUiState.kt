@@ -1,5 +1,5 @@
 package com.example.auth_selection
 
-import com.example.base.UiState
+import com.example.core.base.UiState
 
 class AuthSelectionUiState : UiState

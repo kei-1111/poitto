@@ -1,6 +1,6 @@
 package com.example.search
 
-import com.example.base.UiEvent
+import com.example.core.base.UiEvent
 
 sealed interface SearchUiEvent : UiEvent {
     data object OnNavigateToUserSettingsClick : SearchUiEvent

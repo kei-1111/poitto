@@ -1,6 +1,6 @@
 package com.example.user_settings
 
-import com.example.base.UiState
+import com.example.core.base.UiState
 
 data class UserSettingsUiState(
     val name: String = "",
