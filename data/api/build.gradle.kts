@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data.api"
+    namespace = "com.example.flush.data.api"
     compileSdk = 35
 
     defaultConfig {

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.repository"
+    namespace = "com.example.flush.core.repository"
     compileSdk = 35
 
     defaultConfig {

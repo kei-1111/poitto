@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.sign_up"
+    namespace = "com.example.flush.feature.sign_up"
     compileSdk = 35
 
     defaultConfig {

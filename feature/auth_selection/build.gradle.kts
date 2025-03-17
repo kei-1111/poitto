@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.auth_selection"
+    namespace = "com.example.flush.feature.auth_selection"
     compileSdk = 35
 
     defaultConfig {

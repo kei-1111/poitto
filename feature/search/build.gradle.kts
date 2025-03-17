@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.search"
+    namespace = "com.example.flush.feature.search"
     compileSdk = 35
 
     defaultConfig {

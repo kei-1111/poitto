@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.repository"
+    namespace = "com.example.flush.data.repository"
     compileSdk = 35
 
     defaultConfig {

@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.user_settings"
+    namespace = "com.example.flush.feature.user_settings"
     compileSdk = 35
 
     defaultConfig {

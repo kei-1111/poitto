@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.utils"
+    namespace = "com.example.flush.core.utils"
     compileSdk = 35
 
     defaultConfig {

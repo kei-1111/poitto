@@ -10,10 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.example.designsystem.theme.FlushTheme
+import com.example.flush.core.designsystem.theme.FlushTheme
 import com.example.flush.navigation.FlushNavHost
 import com.example.flush.navigation.Screen
-import com.example.ui.SceneviewProvider
+import com.example.flush.core.ui.SceneviewProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

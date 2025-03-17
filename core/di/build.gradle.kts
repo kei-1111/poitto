@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.di"
+    namespace = "com.example.flush.core.di"
     compileSdk = 35
 
     defaultConfig {

@@ -12,7 +12,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.post"
+    namespace = "com.example.flush.feature.post"
     compileSdk = 35
 
     defaultConfig {

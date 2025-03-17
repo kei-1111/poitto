@@ -5,12 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.auth_selection.AuthSelectionScreen
-import com.example.post.PostScreen
-import com.example.search.SearchScreen
-import com.example.sign_in.SignInScreen
-import com.example.sign_up.SignUpScreen
-import com.example.user_settings.UserSettingsScreen
+import com.example.flush.feature.auth_selection.AuthSelectionScreen
+import com.example.flush.feature.post.PostScreen
+import com.example.flush.feature.search.SearchScreen
+import com.example.flush.feature.sign_in.SignInScreen
+import com.example.flush.feature.sign_up.SignUpScreen
+import com.example.flush.feature.user_settings.UserSettingsScreen
 
 @Composable
 fun FlushNavHost(
