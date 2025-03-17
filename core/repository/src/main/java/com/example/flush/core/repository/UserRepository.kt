@@ -1,9 +1,8 @@
 package com.example.flush.core.repository
 
-
 import com.example.flush.core.model.User
-import kotlinx.coroutines.flow.Flow
 import com.github.michaelbull.result.Result
+import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     suspend fun createUser(user: User): Result<Unit, String>

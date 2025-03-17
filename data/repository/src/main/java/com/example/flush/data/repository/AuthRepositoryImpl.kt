@@ -4,9 +4,9 @@ import android.content.Intent
 import android.util.Log
 import androidx.activity.result.IntentSenderRequest
 import com.example.flush.core.repository.AuthRepository
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.AuthResult

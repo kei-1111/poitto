@@ -1,10 +1,10 @@
 package com.example.flush.data.repository
 
-import com.example.flush.data.api.EmotionAnalysisApi
 import com.example.flush.core.model.AnalyzeEmotionRequest
 import com.example.flush.core.model.Emotion
 import com.example.flush.core.model.GeminiRequest
 import com.example.flush.core.repository.EmotionAnalysisRepository
+import com.example.flush.data.api.EmotionAnalysisApi
 import javax.inject.Inject
 
 class EmotionAnalysisRepositoryImpl @Inject constructor(

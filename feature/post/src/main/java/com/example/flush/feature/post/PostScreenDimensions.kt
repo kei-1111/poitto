@@ -1,5 +1,5 @@
 package com.example.flush.feature.post
 
-data object AnimationConfig {
+data object PostScreenDimensions {
     const val AnimationDuration = 5000
 }

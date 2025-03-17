@@ -6,6 +6,7 @@ import com.example.flush.core.model.User
 import com.example.flush.core.repository.UserRepository
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
+import com.github.michaelbull.result.Result
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.storage.FirebaseStorage
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import com.github.michaelbull.result.Result
 
 class UserRepositoryImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
