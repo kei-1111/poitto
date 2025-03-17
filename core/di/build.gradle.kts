@@ -45,9 +45,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":data:api"))
-    implementation(project(":data:repository"))
-    implementation(project(":core:repository"))
+    implementation(projects.data.api)
+    implementation(projects.data.repository)
+    implementation(projects.core.repository)
 
 
 //    Hilt

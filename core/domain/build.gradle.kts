@@ -45,9 +45,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:di"))
-    implementation(project(":core:repository"))
-    implementation(project(":core:model"))
+    implementation(projects.core.di)
+    implementation(projects.core.repository)
+    implementation(projects.core.model)
 
 //    Hilt
     ksp(libs.hilt.android.compiler)

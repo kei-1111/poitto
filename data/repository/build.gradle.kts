@@ -50,11 +50,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":data:api"))
+    implementation(projects.data.api)
 
-    implementation(project(":core:model"))
-    implementation(project(":core:repository"))
-    implementation(project(":core:utils"))
+    implementation(projects.core.model)
+    implementation(projects.core.repository)
+    implementation(projects.core.utils)
 
 //    Firebase
     implementation(platform(libs.firebase.bom))
