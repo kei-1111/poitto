@@ -31,11 +31,11 @@ import com.example.flush.core.designsystem.theme.dimensions.Paddings
 import com.example.flush.core.ui.LocalEngine
 import com.example.flush.core.ui.LocalGraphicsView
 import com.example.flush.core.ui.LocaleEnvironment
-import com.example.flush.feature.post.AnimationConfig.AnimationDuration
 import com.example.flush.core.utils.SceneviewUtils.applyTextureToAlpha
 import com.example.flush.core.utils.SceneviewUtils.calculateScaleFromBitmapSize
 import com.example.flush.core.utils.SceneviewUtils.createModelNode
 import com.example.flush.core.utils.SceneviewUtils.loadTextureBitmap
+import com.example.flush.feature.post.PostScreenDimensions.AnimationDuration
 import io.github.sceneview.Scene
 import io.github.sceneview.math.Position
 import io.github.sceneview.math.Rotation

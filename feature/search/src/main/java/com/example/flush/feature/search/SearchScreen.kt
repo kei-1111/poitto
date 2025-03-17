@@ -30,8 +30,8 @@ import com.example.flush.core.designsystem.component.Loading
 import com.example.flush.core.designsystem.component.TopBar
 import com.example.flush.core.designsystem.theme.dimensions.IconSize
 import com.example.flush.core.designsystem.theme.dimensions.Paddings
-import com.example.flush.feature.search.SearchScreenDimensions.UserIconBorderWidth
 import com.example.flush.core.utils.showToast
+import com.example.flush.feature.search.SearchScreenDimensions.UserIconBorderWidth
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 

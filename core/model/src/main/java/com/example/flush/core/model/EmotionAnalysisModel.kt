@@ -1,6 +1,5 @@
 package com.example.flush.core.model
 
-
 import kotlinx.serialization.Serializable
 
 @Serializable

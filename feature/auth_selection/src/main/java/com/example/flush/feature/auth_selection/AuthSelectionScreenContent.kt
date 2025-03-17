@@ -12,15 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignInButtonHeight
-import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignUpButtonHeight
-import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.PoittoImageSize
 import com.example.flush.core.designsystem.component.DisplayMediumText
 import com.example.flush.core.designsystem.component.FilledButton
 import com.example.flush.core.designsystem.component.Image
 import com.example.flush.core.designsystem.component.OutlinedButton
 import com.example.flush.core.designsystem.theme.dimensions.Paddings
 import com.example.flush.core.designsystem.theme.dimensions.Weights
+import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignInButtonHeight
+import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.NavigateToSignUpButtonHeight
+import com.example.flush.feature.auth_selection.AuthSelectionScreenDimensions.PoittoImageSize
 
 @Composable
 fun AuthSelectionScreenContent(

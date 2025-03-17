@@ -1,4 +1,4 @@
-package com.example.flush.ktx
+package com.example.flush.core.utils.ktx
 
 import java.time.Instant
 import java.time.ZoneId

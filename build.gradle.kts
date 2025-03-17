@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.android.application) apply false
@@ -6,7 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 
 //    detekt
-    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.detekt)
 
 //    KSP
     alias(libs.plugins.ksp) apply false
@@ -22,4 +24,28 @@ plugins {
 
 //    Secrets Gradle Plugin
     alias(libs.plugins.secrets.gradle.plugin) apply false
+}
+
+val detektFormatting = libs.detekt.formatting
+val detektCompose = libs.detekt.compose
+
+subprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    dependencies {
+        detektPlugins(detektFormatting)
+        detektPlugins(detektCompose)
+    }
+
+    detekt {
+        config.setFrom("$rootDir/config/detekt/detekt.yml")
+        buildUponDefaultConfig = true
+
+        source.setFrom(files("src/main/java"))
+        autoCorrect = true
+    }
+
+    tasks.withType<Detekt>().configureEach {
+        jvmTarget = "17"
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.flush.ktx
+package com.example.flush.core.utils.ktx
 
 import android.graphics.Bitmap
 import java.io.ByteArrayOutputStream

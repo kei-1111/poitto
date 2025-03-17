@@ -62,7 +62,7 @@ class PostViewModel @Inject constructor(
     fun startAnimation() {
         viewModelScope.launch {
             updateUiState { it.copy(animationState = PostUiAnimationState.Running) }
-            delay(AnimationConfig.AnimationDuration.toLong())
+            delay(PostScreenDimensions.AnimationDuration.toLong())
             updateUiState { it.copy(animationState = PostUiAnimationState.Completed) }
         }
     }

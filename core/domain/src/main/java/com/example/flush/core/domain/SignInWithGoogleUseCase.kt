@@ -7,12 +7,12 @@ import com.example.flush.core.model.User
 import com.example.flush.core.repository.AuthRepository
 import com.example.flush.core.repository.UserRepository
 import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.andThen
 import com.github.michaelbull.result.map
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.github.michaelbull.result.Result
 
 class SignInWithGoogleUseCase @Inject constructor(
     private val authRepository: AuthRepository,

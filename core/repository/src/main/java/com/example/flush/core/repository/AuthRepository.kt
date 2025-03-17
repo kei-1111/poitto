@@ -2,9 +2,9 @@ package com.example.flush.core.repository
 
 import android.content.Intent
 import androidx.activity.result.IntentSenderRequest
+import com.github.michaelbull.result.Result
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
-import com.github.michaelbull.result.Result
 
 interface AuthRepository {
     fun getCurrentUser(): FirebaseUser?
