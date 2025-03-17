@@ -90,10 +90,6 @@ dependencies {
 //    Splash Screen
     implementation(libs.androidx.core.splashscreen)
 
-//    detekt
-    detektPlugins(libs.detekt.compose)
-    detektPlugins(libs.detekt.formatting)
-
 //    Hilt
     ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.android)
@@ -108,20 +104,4 @@ dependencies {
 //    Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-}
-
-allprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
-
-    detekt {
-        config.setFrom("$rootDir/config/detekt/detekt.yml")
-        buildUponDefaultConfig = true
-
-        source.setFrom(files("src/main/java"))
-        autoCorrect = true
-    }
-
-    tasks.withType<io.gitlab.arturbosch.detekt.Detekt> {
-        jvmTarget = "17"
-    }
 }
