@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.model"
+    namespace = "com.example.flush.core.model"
     compileSdk = 35
 
     defaultConfig {

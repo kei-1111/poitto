@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data.api"
+    namespace = "com.example.flush.data.api"
     compileSdk = 35
 
     defaultConfig {
@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:model"))
+    implementation(projects.core.model)
 
     //    Retrofit
     implementation(libs.retrofit2)

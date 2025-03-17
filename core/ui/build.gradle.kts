@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ui"
+    namespace = "com.example.flush.core.ui"
     compileSdk = 35
 
     defaultConfig {

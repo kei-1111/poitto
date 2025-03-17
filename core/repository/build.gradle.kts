@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.repository"
+    namespace = "com.example.flush.core.repository"
     compileSdk = 35
 
     defaultConfig {
@@ -41,7 +41,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:model"))
+    implementation(projects.core.model)
 
 //    Firebase
     implementation(platform(libs.firebase.bom))

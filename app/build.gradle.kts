@@ -75,17 +75,17 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:model"))
-    implementation(project(":core:ui"))
+    implementation(projects.core.designsystem)
+    implementation(projects.core.domain)
+    implementation(projects.core.model)
+    implementation(projects.core.ui)
 
-    implementation(project(":feature:auth_selection"))
-    implementation(project(":feature:post"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:sign_in"))
-    implementation(project(":feature:sign_up"))
-    implementation(project(":feature:user_settings"))
+    implementation(projects.feature.authSelection)
+    implementation(projects.feature.post)
+    implementation(projects.feature.search)
+    implementation(projects.feature.signIn)
+    implementation(projects.feature.signUp)
+    implementation(projects.feature.userSettings)
 
 //    Splash Screen
     implementation(libs.androidx.core.splashscreen)

@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.user_settings"
+    namespace = "com.example.flush.feature.user_settings"
     compileSdk = 35
 
     defaultConfig {
@@ -56,11 +56,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(project(":core:base"))
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:model"))
-    implementation(project(":core:utils"))
+    implementation(projects.core.base)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.domain)
+    implementation(projects.core.model)
+    implementation(projects.core.utils)
 
 //    Material Icon Extended
     implementation(libs.androidx.material.icons.extended)
