@@ -24,6 +24,15 @@ plugins {
 
 //    Secrets Gradle Plugin
     alias(libs.plugins.secrets.gradle.plugin) apply false
+
+//    flush
+    alias(libs.plugins.flush.android.application) apply false
+    alias(libs.plugins.flush.android.feature) apply false
+    alias(libs.plugins.flush.android.library.compose) apply false
+    alias(libs.plugins.flush.android.library) apply false
+    alias(libs.plugins.flush.detekt) apply false
+    alias(libs.plugins.flush.hilt) apply false
+    alias(libs.plugins.flush.kotlin.serialization) apply false
 }
 
 val detektFormatting = libs.detekt.formatting
