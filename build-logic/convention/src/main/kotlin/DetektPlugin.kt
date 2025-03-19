@@ -24,7 +24,7 @@ class DetektPlugin : Plugin<Project> {
             }
 
             tasks.withType<Detekt>().configureEach {
-                jvmTarget = JvmTarget.JVM_17.toString()
+                jvmTarget = "17"
             }
         }
     }
