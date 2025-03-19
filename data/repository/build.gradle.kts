@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.flush.android.library)
-
     alias(libs.plugins.secrets.gradle.plugin)
 }
 
