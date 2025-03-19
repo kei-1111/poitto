@@ -1,169 +1,99 @@
 [versions]
-agp = "8.7.1"
-kotlin = "2.0.21"
-coreKtx = "1.15.0"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
-composeBom = "2024.11.00"
-
-# Immutable
-kotlinxCollectionsImmutable = "0.3.8"
-
-# Material Icons Extended
-materialIconsExtended = "1.7.5"
-
-# Lottie
-lottieCompose = "6.6.1"
-
-# Ccil
+agp = "8.7.1"
 coilCompose = "2.2.2"
-
-# Sceneview
-sceneview = "2.2.1"
-
-# Splash Screen
+composeBom = "2024.11.00"
+coreKtx = "1.15.0"
 coreSplashscreen = "1.0.1"
-
-# detekt
 detekt = "1.23.7"
 detektCompose = "0.4.12"
-
-# KSP
-ksp = "2.0.21-1.0.25"
-
-# Hilt
+espressoCore = "3.6.1"
+firebaseBom = "33.6.0"
+googleServices = "4.4.2"
 hilt = "2.49"
 hiltNavigationCompose = "1.2.0"
-
-# Retrofit
+junit = "4.13.2"
+junitVersion = "1.2.1"
+kotlin = "2.0.21"
+kotlinResult = "2.0.0"
+kotlinxCollectionsImmutable = "0.3.8"
+kotlinxCoroutinesPlayServices = "1.7.3"
+ksp = "2.0.21-1.0.25"
+lifecycleRuntimeKtx = "2.8.7"
+lottieCompose = "6.6.1"
+materialIconsExtended = "1.7.5"
+navigationCompose = "2.8.4"
+okhttp = "4.12.0"
+playServicesAuth = "21.3.0"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "0.8.0"
-
-# OkHttp
-okhttp = "4.12.0"
-
-# Serialization
-serializationJson = "1.7.3"
-
-# Navigation
-navigationCompose = "2.8.4"
-
-# Google Services
-googleServices = "4.4.2"
-
-# Firebase
-firebaseBom = "33.6.0"
-
-# Coroutines
-kotlinxCoroutinesPlayServices = "1.7.3"
-
-# Secrets Gradle Plugin
+sceneview = "2.2.1"
 secretsGradlePlugin = "2.0.0"
-
-# Google Auth
-playServicesAuth = "21.3.0"
-
-# kotlin-result
-kotlinResult = "2.0.0"
+serializationJson = "1.7.3"
 
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-
-# Immutable
-kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
-
-# Material Icons Extended
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
-
-# Lottie
-lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
-
-# Coil
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
-
-# Sceneview
-sceneview = { group = "io.github.sceneview", name = "sceneview", version.ref = "sceneview" }
-
-# Splash Screen
-androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
-
-# detekt
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
 detekt-compose = { group = "io.nlopez.compose.rules", name = "detekt", version.ref = "detektCompose" }
-
-# Hilt
-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-
-# Retrofit
-retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
-
-# OkHttp
-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-
-# Serialization
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJson" }
-
-# Navigation
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
-
-# Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage-ktx" }
-
-# Coroutines
-kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
-
-# Google Auth
-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
-
-# kotlin-result
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-result = { group = "com.michael-bull.kotlin-result", name = "kotlin-result", version.ref = "kotlinResult" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serializationJson" }
+lottie-compose = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieCompose" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit2-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
+sceneview = { group = "io.github.sceneview", name = "sceneview", version.ref = "sceneview" }
+
+# Use build-logic
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+detekt-gradle = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
-# detekt
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-
-# KSP
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-
-# Hilt
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-
-# Serialization
+secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
-# Google Services
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-
-# Secrets Gradle Plugin
-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
-
-# Library
-android-library = { id = "com.android.library", version.ref = "agp" }
+# flush
+flush-android-application = { id = "flush.android.application", version = "unspecified" }
+flush-android-feature = { id = "flush.android.feature", version = "unspecified" }
+flush-android-library-compose = { id = "flush.android.library.compose", version = "unspecified" }
+flush-android-library = { id = "flush.android.library", version = "unspecified" }
+flush-detekt = { id = "flush.detekt", version = "unspecified" }
+flush-hilt = { id = "flush.hilt", version = "unspecified" }
+flush-kotlin-serialization = { id = "flush.kotlin.serialization", version = "unspecified" }
